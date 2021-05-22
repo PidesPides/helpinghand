@@ -3,8 +3,6 @@ import { Form, Button, Dropdown, DropdownButton } from 'react-bootstrap';
 import { ServicePathsLabel,PathsLabel } from '../Common/Utils/Paths.js';
 import type { User, Institution } from '../Common/Utils/Types.js';
 
-//espaço entre os campos e o botao
-
 const passPattern = '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*?/="])[a-zA-Z0-9!@#$%^&*?/="]{8,20}$';
 
 class Register extends Component {
@@ -29,14 +27,8 @@ class Register extends Component {
         this.onSelect = this.onSelect.bind(this);
     }
 
-/*
-'Access-Control-Allow-Methods': 'HEAD,GET,PUT,POST,DELETE,OPTIONS',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
-*/
-
     handleRegister(e) {
-        var url = ServicePathsLabel.Api;
+        var url = ServicePathsLabel.ApiProd;
         if (this.state.isInstitution) {
             url += ServicePathsLabel.Institution;
             if (e.target.parentNode.checkValidity()) {

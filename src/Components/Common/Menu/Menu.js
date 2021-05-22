@@ -33,12 +33,11 @@ class Menu extends Component {
 
                         <MenuItem id="maps" href={PathsLabel.Maps} label="Maps" isActive={true}
                             onClick={() => this.setActiveMenuItem("maps")} />
-                    </Nav>
-                    
-                    <Nav className="mr-auto mr-4">
+                    </Nav>            
+                </Navbar.Collapse>
+                <Nav className="ml-auto mr-4 ">
                         <MenuItem id="Logout" href="" label="Logout" onClick={this.logout}></MenuItem>
                     </Nav>
-                </Navbar.Collapse>
             </Navbar>
         );
     }

@@ -1,9 +1,8 @@
-
 export type User = {
     userId: string,
     email: string,
     password: string,
-    confPassword: string  
+    confPassword: string
 }
 
 export type Institution = {
@@ -13,11 +12,10 @@ export type Institution = {
     email: string,
     password: string,
     confPassword: string
-    
-} 
 
-export type UserLogin = {
+}
+
+export type Login = {
     clientId: string,
     password: string
 }
-
