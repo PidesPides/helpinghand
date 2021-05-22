@@ -20,6 +20,7 @@ import Register from './Components/User/Register.js';
 import UpdateInfo from './Components/User/UpdateInfo.js';
 import Profile from './Components/User/Profile.js';
 import ChangePassword from './Components/User/ChangePassword.js';
+import Delete from './Components/User/Delete.js';
 import Maps from './Components/Common/Utils/Maps.js';
 import AboutUs from './Components/Common/AboutUs/AboutUs.js';
 
@@ -28,7 +29,7 @@ class App extends Component {
     return (
       <HashRouter>
         <Menu />
-        <body>
+        <div className="div-body">
           <Switch>
             <Route exact path='/' component={Home} />
             <Route exact path={PathsLabel.Login} component={Login} />
@@ -37,10 +38,11 @@ class App extends Component {
             <Route exact path={PathsLabel.UpdateInfo} component={UpdateInfo} />
             <Route exact path={PathsLabel.Profile} component={Profile} />
             <Route exact path={PathsLabel.ChangePassword} component={ChangePassword} />
+            <Route exact path={PathsLabel.Delete} component={Delete} /> 
             <Route exact path={PathsLabel.Maps} component={Maps} />
             <Route exact path={PathsLabel.AboutUs} component={AboutUs} />
           </Switch>
-        </body>
+        </div>
 
         <Footer />
       </HashRouter>

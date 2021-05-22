@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
 import { Form, Button, Dropdown, DropdownButton } from 'react-bootstrap';
+import { ServicePathsLabel,PathsLabel } from '../Common/Utils/Paths.js';
+import type { User, Institution } from '../Common/Utils/Types.js';
 
-const passPattern = '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$';
+//espaço entre os campos e o botao
+
+const passPattern = '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*?/="])[a-zA-Z0-9!@#$%^&*?/="]{8,20}$';
 
 class Register extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            //user
             username: '',
             email: '',
             password: '',
             password2: '',
+            //institution
             institutionName: '',
             institutionUsername: '',
             institutionInitials: '',
@@ -23,30 +29,66 @@ class Register extends Component {
         this.onSelect = this.onSelect.bind(this);
     }
 
+/*
+'Access-Control-Allow-Methods': 'HEAD,GET,PUT,POST,DELETE,OPTIONS',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
+*/
+
     handleRegister(e) {
-        var url = "url";
+        var url = ServicePathsLabel.Api;
         if (this.state.isInstitution) {
+            url += ServicePathsLabel.Institution;
             if (e.target.parentNode.checkValidity()) {
-                fetch(url).then(
-                    //window.location.hash = "/";
-                    //guardar na sessionStorage o email 
-                    //arrow functions
-                ).catch(
+                let json: Institution = {
+                    name: this.state.institutionName,
+                    initials: this.state.institutionInitials,
+                    instId: this.state.institutionUsername,
+                    email: this.state.institutionEmail,
+                    password: this.state.password,
+                    confPassword:this.state.password2
+                }
+                const requestOptions = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(json)
+                };                   
+                fetch(url, requestOptions)
+                .then(data => {
+                    window.location.hash = PathsLabel.Login;
+                    //sweet alert?
+                })
+                .catch(
                     //arrow functions
                 );
+                
             }
             else {
                 alert("Por favor preencha todos os campos.")
             }
         }
         else {
-            url = '';
+            url += ServicePathsLabel.User;
             if (e.target.parentNode.checkValidity()) {
-                fetch(url).then(
-                    //window.location.hash = "/";
+                let json: User = {
+                    userId: this.state.username,
+                    email: this.state.email,
+                    password: this.state.password,
+                    confPassword: this.state.password2
+                }
+                const requestOptions = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(json)
+                };
+                fetch(url, requestOptions)
+                .then(data => {
+                     //window.location.hash = "/";
                     //guardar na sessionStorage o email 
                     //arrow functions
-                ).catch(
+                   alert('Correu bem.')
+                })
+                .catch(
                     //arrow functions
                 );
             }
@@ -102,7 +144,7 @@ class Register extends Component {
                         <Form.Group controlId="formUsername">
                             <Form.Label>Username</Form.Label>
                             <Form.Control type="username" name="username" placeholder="Introduza o username"
-                                onChange={this.onChange} value={this.state.name} required />
+                                onChange={this.onChange} value={this.state.username} required />
                         </Form.Group>
 
                         <Form.Group controlId="formEmail">
@@ -137,7 +179,7 @@ class Register extends Component {
                             }
                         </Form.Group>
 
-                        <Button variant="primary" onClick={this.handleRegister}>
+                        <Button variant="primary" className="mt-2" onClick={this.handleRegister}>
                             Register
                         </Button>
                     </Form>
@@ -195,13 +237,13 @@ class Register extends Component {
                                     </div>
                                 }
                             </Form.Group>
-                            <Button variant="primary" onClick={this.handleRegister}>
+                            
+                            <Button variant="primary" className="mt-2" onClick={this.handleRegister}>
                                 Register
-                        </Button>
+                            </Button>
                         </Form>
                     </div>
                 }
-
             </div>
         );
     }

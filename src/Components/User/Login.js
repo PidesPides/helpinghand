@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { ServicePathsLabel } from '../Common/Utils/Paths.js';
+import type { UserLogin } from '../Common/Utils/Types.js';
+
+//espaço entre os campos e o botao
 
 class Login extends Component {
 
@@ -16,13 +20,30 @@ class Login extends Component {
 
 
     handleLogin(e) {
-        const url = "url";
+        //posso por types(UserLogin?)
+        //se mandam as cenas em string => usar o return response.text()!!!!
         if (e.target.parentNode.checkValidity()) {
-            fetch(url).then(
-                //window.location.hash = "/";
-                //guardar na sessionStorage o email 
-                //arrow functions
-            ).catch(
+            var url = ServicePathsLabel.ApiProd + ServicePathsLabel.User + this.state.username + ServicePathsLabel.Login;
+            let json: UserLogin = {
+                clientId: this.state.username,
+                password: this.state.password
+            }
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(json)
+            };
+            fetch(url,requestOptions) 
+            .then(response => {
+                return response.text();
+            })
+            .then(token => {
+                sessionStorage.setItem('token', token);
+                sessionStorage.setItem('id',this.state.username);
+                window.location.hash = "/";
+                window.location.reload();
+            })
+            .catch(
                 //arrow functions
             );
         }
@@ -56,8 +77,8 @@ class Login extends Component {
                         <Form.Control type="password" name="password" placeholder="Introduz password"
                             onChange={this.onChange} value={this.state.password} required />
                     </Form.Group>
-
-                    <Button variant="primary" onClick={this.handleLogin}>
+                    
+                    <Button variant="primary" className="mt-2" onClick={this.handleLogin}>
                         Login
                 </Button>
                 </Form>

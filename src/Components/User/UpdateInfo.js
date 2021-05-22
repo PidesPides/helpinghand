@@ -35,9 +35,9 @@ class UpdateInfo extends Component {
         console.log(this.state)
 
     }
-    //mudar o link para a cena final
+    
     //bio
-    //lista de instiuiçoes
+    //lista de instiuiçoes?
 
     render() {
         return (
@@ -50,13 +50,13 @@ class UpdateInfo extends Component {
                     </Form.Group>
 
                     <Form.Group controlId="formIdade">
-                        <Form.Label>Nome</Form.Label>
+                        <Form.Label>Idade</Form.Label>
                         <Form.Control type="age" name="age" placeholder="Introduz idade"
                             onChange={this.onChange} value={this.state.age} />
                     </Form.Group>
 
                     <Form.Group controlId="formMorada">
-                        <Form.Label>Nome</Form.Label>
+                        <Form.Label>Morada</Form.Label>
                         <Form.Control type="address" name="address" placeholder="Introduz morada"
                             onChange={this.onChange} value={this.state.address} />
                     </Form.Group>

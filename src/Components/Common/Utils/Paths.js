@@ -6,12 +6,16 @@ const PathsLabel = {
     Profile: "/profile",
     ChangePassword: "/changepass",
     Maps: "/maps",
+    Delete: "/delete",
     AboutUs: "/aboutus"
 }
 
 const ServicePathsLabel = {
-    Api: "http://localhost:8080/",
-    ApiProd: ""
+    Api: "http://localhost:8080/rest/",
+    ApiProd: "https://firstwebapp-307910.appspot.com/rest/",
+    User: "user/",
+    Institution: "institution/",
+    Login:"/login"
 }
 
 const SubServicesLable = {

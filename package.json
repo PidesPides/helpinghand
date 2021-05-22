@@ -2,10 +2,12 @@
   "name": "helpinghand",
   "version": "0.1.0",
   "private": true,
+  "proxy":"http://localhost:8080/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
+    "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
     "google-maps-react": "^2.0.6",
     "react": "^17.0.2",
@@ -17,9 +19,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build babel src/ -d lib/",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prepublish": "npm run build",
+    "flow": "flow"
   },
   "eslintConfig": {
     "extends": [
@@ -38,5 +42,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.3",
+    "@babel/core": "^7.14.3",
+    "@babel/preset-flow": "^7.13.13",
+    "flow-bin": "^0.151.2"
   }
+  
 }

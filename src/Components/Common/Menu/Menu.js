@@ -4,9 +4,19 @@ import { PathsLabel } from "../Utils/Paths";
 import { MenuItem } from './MenuItem';
 
 class Menu extends Component {
+    constructor(props){
+        super(props)
+        this.logout = this.logout.bind(this);
+    }
     setActiveMenuItem(id) {
         sessionStorage.setItem("activeMenuItem", id);
         this.setState({});
+    }
+
+    logout(){
+        sessionStorage.clear();
+        this.setState({});
+        window.location.hash = "/";
     }
 
     loggedInMenu() {
@@ -18,22 +28,21 @@ class Menu extends Component {
                         <MenuItem id="home" href="/" label="Home" isActive={true}
                             onClick={() => this.setActiveMenuItem("home")} />
 
-                        <MenuItem id="updateinfo" href={PathsLabel.UpdateInfo} label="UpdateInfo" isActive={true}
-                            onClick={() => this.setActiveMenuItem("updateinfo")} />
+                        <MenuItem id="profile" href={PathsLabel.Profile} label="Profile" isActive={true}
+                            onClick={() => this.setActiveMenuItem("profile")} />
 
-                        <MenuItem id="maps" href={PathsLabel.Maps} label="Map" isActive={true}
+                        <MenuItem id="maps" href={PathsLabel.Maps} label="Maps" isActive={true}
                             onClick={() => this.setActiveMenuItem("maps")} />
                     </Nav>
-                    {
-                        <Nav className="ml-auto mr-4">
-                            <MenuItem id="Logout" href="" label="Logout" onClick={this.logout}></MenuItem>
-                        </Nav>
-                    }
+                    
+                    <Nav className="mr-auto mr-4">
+                        <MenuItem id="Logout" href="" label="Logout" onClick={this.logout}></MenuItem>
+                    </Nav>
                 </Navbar.Collapse>
             </Navbar>
         );
     }
-    //tirar updateinfo e maps
+
     guestMenu() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -48,19 +57,17 @@ class Menu extends Component {
 
                         <MenuItem id="register" href={PathsLabel.Register} label="Register" isActive={true}
                             onClick={() => this.setActiveMenuItem("register")} />
-
-                        <MenuItem id="profile" href={PathsLabel.Profile} label="Profile" isActive={true}
-                            onClick={() => this.setActiveMenuItem("profile")} />
-
-                        <MenuItem id="maps" href={PathsLabel.Maps} label="Maps" isActive={true}
-                            onClick={() => this.setActiveMenuItem("maps")} />
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
         );
     }
+    //POR ISTO QUANDO TESTES ESTIVEREM A FUNCIONAR
+    //sessionStorage.getItem("email") !== null;
     render() {
-        const isLoggedIn = sessionStorage.getItem("email") !== null;
+        //false => menu guest(sem registo);
+        //true  => menu loggedIn(com registo e logIn feito)
+        const isLoggedIn = sessionStorage.getItem("id") !== null;;
         return (
             <div>
                 { isLoggedIn &&
