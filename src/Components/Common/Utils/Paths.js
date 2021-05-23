@@ -12,7 +12,7 @@ const PathsLabel = {
 
 const ServicePathsLabel = {
     Api: "http://localhost:8080/rest/",
-    ApiProd: "https://firstwebapp-307910.appspot.com/rest/",
+    ApiProd: "https://helping-hand-312416.appspot.com/rest/",
     User: "user/",
     Institution: "institution/",
     Login:"/login"

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Form, Button,Dropdown,DropdownButton,Alert } from 'react-bootstrap';
+import { Form, Button,Dropdown,DropdownButton } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import SweetAlert from 'react-bootstrap-sweetalert';
 import { ServicePathsLabel } from '../Common/Utils/Paths.js';
-import type { UserLogin } from '../Common/Utils/Types.js';
 
 
 //espaço entre os campos e o botao
@@ -43,7 +42,12 @@ class Login extends Component {
                 };
                 fetch(url,requestOptions) 
                 .then(response => {
-                    return response.text();
+                   if (response.ok) {
+                        return response.text();
+                    }else{
+                        this.setState({error: response.statusText});
+                        throw new Error(response.statusText);
+                    }
                 })
                 .then(token => {
                     sessionStorage.setItem('token', token);

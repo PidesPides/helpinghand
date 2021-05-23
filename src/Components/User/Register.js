@@ -75,7 +75,7 @@ class Register extends Component {
                 };
                 fetch(url, requestOptions)
                 .then(data => {
-                     //window.location.hash = "/";
+                     window.location.hash = PathsLabel.Login;
                     //guardar na sessionStorage o email 
                     //arrow functions
                    alert('Correu bem.')
