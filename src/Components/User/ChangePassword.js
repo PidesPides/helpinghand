@@ -4,34 +4,87 @@ import { Form, Button } from 'react-bootstrap';
 const passPattern = '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$';
 //passes iguais OK, regex esta OK e form vazio OK
 //vai ser preciso confirmar que oldPass e igual a pass que esta neste user!!!
+//por user no construtor?
 class ChangePassword extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            username:'',
             oldPass: '',
             newPass: '',
             newPass2: '',
             isPassCorrect: true
         }
-        this.handleUpdate = this.handleUpdate.bind(this);
+        this.handleChangePass = this.handleChangePass.bind(this);
         this.onChange = this.onChange.bind(this);
 
     }
 
-    handleUpdate(e) {
-        if (e.target.parentNode.checkValidity()) {
-            const url = "url";
-            fetch(url).then(
-                //window.location.hash = "/";
-                //guardar na sessionStorage o email 
-                //arrow functions
-            ).catch(
-                //arrow functions
-            );
+    handleChangePass(e) {
+        //como ir buscar username para o link?
+        //tenho de fazer tambem com a diferença para institution e user? SIM
+        var url = ServicePathsLabel.ApiProd;
+        if (this.state.isInstitution) {
+            url += ServicePathsLabel.Institution + this.username + ServicePathsLabel.ChangePassword;
+            if (e.target.parentNode.checkValidity()) {
+                let json: Institution = {
+                    name: this.state.institutionName,
+                    initials: this.state.institutionInitials,
+                    instId: this.state.institutionUsername,
+                    email: this.state.institutionEmail,
+                    password: this.state.password,
+                    confPassword:this.state.password2
+                }
+                const requestOptions = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(json)
+                };                   
+                fetch(url, requestOptions)
+                .then(data => {
+                    window.location.hash = PathsLabel.Login;
+                    //sweet alert?
+                })
+                .catch(
+                    //arrow functions
+                );
+                
+            }
+            else {
+                alert("Por favor preencha todos os campos.")
+            }
         }
         else {
-            alert("Por favor preencha todos os campos.")
+            url += ServicePathsLabel.User + this.username + ServicePathsLabel.ChangePassword;
+            if (e.target.parentNode.checkValidity()) {
+                let json: User = {
+                    userId: this.state.username,
+                    email: this.state.email,
+                    password: this.state.password,
+                    confPassword: this.state.password2
+                }
+                const requestOptions = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(json)
+                };
+                fetch(url, requestOptions)
+                .then(data => {
+                     window.location.hash = PathsLabel.Login;
+                    //guardar na sessionStorage o email 
+                    //arrow functions
+                   alert('Correu bem.')
+                })
+                .catch(
+                    //arrow functions
+                );
+            }
+            else {
+                alert("Por favor preencha todos os campos.")
+            }
+
         }
+
         e.preventDefault();
     }
 

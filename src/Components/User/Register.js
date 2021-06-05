@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Button, Dropdown, DropdownButton } from 'react-bootstrap';
 import { ServicePathsLabel,PathsLabel } from '../Common/Utils/Paths.js';
-import type { User, Institution } from '../Common/Utils/Types.js';
 
 const passPattern = '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*?/="])[a-zA-Z0-9!@#$%^&*?/="]{8,20}$';
 

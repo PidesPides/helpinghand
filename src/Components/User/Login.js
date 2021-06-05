@@ -43,6 +43,7 @@ class Login extends Component {
                 fetch(url,requestOptions) 
                 .then(response => {
                    if (response.ok) {
+                       //maudar resposnta pa json
                         return response.text();
                     }else{
                         this.setState({error: response.statusText});
@@ -76,6 +77,7 @@ class Login extends Component {
                 fetch(url,requestOptions) 
                 .then(response => {
                     if (response.ok) {
+                        //resposta pa json
                         return response.text();
                     }else{
                         this.setState({error: response.statusText});

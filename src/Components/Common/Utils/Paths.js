@@ -4,7 +4,7 @@ const PathsLabel = {
     Login: "/login",
     UpdateInfo: "/updateinfo",
     Profile: "/profile",
-    ChangePassword: "/changepass",
+    ChangePassword: "/password",
     Maps: "/maps",
     Delete: "/delete",
     AboutUs: "/aboutus"
