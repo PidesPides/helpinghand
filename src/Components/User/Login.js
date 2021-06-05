@@ -78,6 +78,7 @@ class Login extends Component {
                 .then(response => {
                     if (response.ok) {
                         //resposta pa json
+                        //return response.json();
                         return response.text();
                     }else{
                         this.setState({error: response.statusText});

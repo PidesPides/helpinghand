@@ -5,11 +5,12 @@ const passPattern = '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-
 //passes iguais OK, regex esta OK e form vazio OK
 //vai ser preciso confirmar que oldPass e igual a pass que esta neste user!!!
 //por user no construtor?
+
+// FAZER VERIFICAÇAO DE LOGIN SABER SE PODES ESTAR NUM ECRA VER FRED PO CARALHO!!!
 class ChangePassword extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            username:'',
             oldPass: '',
             newPass: '',
             newPass2: '',
@@ -25,24 +26,29 @@ class ChangePassword extends Component {
         //tenho de fazer tambem com a diferença para institution e user? SIM
         var url = ServicePathsLabel.ApiProd;
         if (this.state.isInstitution) {
-            url += ServicePathsLabel.Institution + this.username + ServicePathsLabel.ChangePassword;
+            url += ServicePathsLabel.Institution + sessionStorage.getItem('id') + ServicePathsLabel.ChangePassword;
             if (e.target.parentNode.checkValidity()) {
                 let json: Institution = {
-                    name: this.state.institutionName,
-                    initials: this.state.institutionInitials,
-                    instId: this.state.institutionUsername,
-                    email: this.state.institutionEmail,
-                    password: this.state.password,
-                    confPassword:this.state.password2
+                    token: sessionStorage.getItem('token'),
+                    oldPassword: this.state.oldPass,
+                    newPassword:this.state.newPass,
+                    confirmation:this.state.newPass2
+                    /*
+                    data:{
+                    oldPassword: this.state.oldPass,
+                    newPassword:this.state.newPass,
+                    confirmation:this.state.newPass2
+                    }
+                    */
                 }
                 const requestOptions = {
-                    method: 'POST',
+                    method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(json)
                 };                   
                 fetch(url, requestOptions)
                 .then(data => {
-                    window.location.hash = PathsLabel.Login;
+                    
                     //sweet alert?
                 })
                 .catch(
@@ -55,23 +61,22 @@ class ChangePassword extends Component {
             }
         }
         else {
-            url += ServicePathsLabel.User + this.username + ServicePathsLabel.ChangePassword;
+            url += ServicePathsLabel.User + sessionStorage.getItem('id') + ServicePathsLabel.ChangePassword;
             if (e.target.parentNode.checkValidity()) {
                 let json: User = {
-                    userId: this.state.username,
-                    email: this.state.email,
-                    password: this.state.password,
-                    confPassword: this.state.password2
+                    token: sessionStorage.getItem('token'),
+                    oldPassword: this.state.oldPass,
+                    newPassword:this.state.newPass,
+                    confirmation:this.state.newPass2
                 }
                 const requestOptions = {
-                    method: 'POST',
+                    method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(json)
                 };
                 fetch(url, requestOptions)
                 .then(data => {
-                     window.location.hash = PathsLabel.Login;
-                    //guardar na sessionStorage o email 
+                    
                     //arrow functions
                    alert('Correu bem.')
                 })
@@ -138,7 +143,6 @@ class ChangePassword extends Component {
                             </div>
                         }
                     </Form.Group>
-
 
                     <Button variant="primary" onClick={this.handleUpdate}>
                         Atualizar
