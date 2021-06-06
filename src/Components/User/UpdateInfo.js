@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
 
-//morada com separadores?rua/codigo postal/cidade
+//FORMS PARA USER ESTAO OK
+//FALTA FORMS PARA INST, HANDLE
 class UpdateInfo extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            email: '',
-            password: '',
-            password2: '',
-            age: '',
-            adress: ''
+            phone: '',
+            addr1: '',
+            addr2: '',
+            city: '',
+            zip: ''
         }
         this.handleUpdate = this.handleUpdate.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -43,22 +44,34 @@ class UpdateInfo extends Component {
         return (
             <div className="p-5">
                 <Form>
-                    <Form.Group controlId="formEmail">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" name="email" placeholder="Introduz email"
-                            onChange={this.onChange} value={this.state.email} />
+                    <Form.Group controlId="formPhone">
+                        <Form.Label>Telefone</Form.Label>
+                        <Form.Control name="phone" placeholder="Introduz telefone"
+                            onChange={this.onChange} value={this.state.phone} />
                     </Form.Group>
 
-                    <Form.Group controlId="formIdade">
-                        <Form.Label>Idade</Form.Label>
-                        <Form.Control type="age" name="age" placeholder="Introduz idade"
-                            onChange={this.onChange} value={this.state.age} />
-                    </Form.Group>
-
-                    <Form.Group controlId="formMorada">
+                    <Form.Group controlId="formAddr">
                         <Form.Label>Morada</Form.Label>
-                        <Form.Control type="address" name="address" placeholder="Introduz morada"
-                            onChange={this.onChange} value={this.state.address} />
+                        <Form.Control name="addr1" placeholder="Introduz morada"
+                            onChange={this.onChange} value={this.state.addr1} />
+                    </Form.Group>
+
+                    <Form.Group controlId="formAddr2">
+                        <Form.Label>Morada Alternativa</Form.Label>
+                        <Form.Control name="addr2" placeholder="Introduz morada alternativa"
+                            onChange={this.onChange} value={this.state.addr2} />
+                    </Form.Group>
+
+                    <Form.Group controlId="formCity">
+                        <Form.Label>Cidade</Form.Label>
+                        <Form.Control name="addr1" placeholder="Introduz morada"
+                            onChange={this.onChange} value={this.state.city} />
+                    </Form.Group>
+
+                    <Form.Group controlId="formZip">
+                        <Form.Label>Código Postal</Form.Label>
+                        <Form.Control name="addr1" placeholder="Introduz morada"
+                            onChange={this.onChange} value={this.state.zip} />
                     </Form.Group>
 
                     <Button variant="primary" onClick={this.handleUpdate}>

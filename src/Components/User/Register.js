@@ -50,7 +50,7 @@ class Register extends Component {
                     //sweet alert?
                 })
                 .catch(
-                    //arrow functions
+                    
                 );
                 
             }
@@ -75,8 +75,7 @@ class Register extends Component {
                 fetch(url, requestOptions)
                 .then(data => {
                      window.location.hash = PathsLabel.Login;
-                    //guardar na sessionStorage o email 
-                    //arrow functions
+                    //sweet alert                    
                    alert('Correu bem.')
                 })
                 .catch(

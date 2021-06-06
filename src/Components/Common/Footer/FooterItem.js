@@ -2,7 +2,7 @@ import React from 'react'
 import { Nav } from 'react-bootstrap';
 
 //como fazer?
-// TESTE PARA VER SE ESTA A PASSAR CHANGES
+// PODE NAO SER PRECISO VER MAIS TARDE
 
 export const FooterItem = (props) =>
     <Nav.Link id={props.id} href={"#" + props.href} className={props.isActive} onClick={props.onClick}>

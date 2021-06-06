@@ -30,7 +30,7 @@ class Login extends Component {
         var url = ServicePathsLabel.ApiProd; 
         if (e.target.parentNode.checkValidity()) {
             if(!this.state.isInstitution){
-                url += ServicePathsLabel.User + this.state.username + ServicePathsLabel.Login;
+                url += ServicePathsLabel.User + this.state.username + PathsLabel.Login;
                 let json: Login = {
                     clientId: this.state.username,
                     password: this.state.password
@@ -64,7 +64,7 @@ class Login extends Component {
 
             }
             else{
-                url += ServicePathsLabel.Institution + this.state.username + ServicePathsLabel.Login;
+                url += ServicePathsLabel.Institution + this.state.username + PathsLabel.Login;
                 let json: Login = {
                     clientId: this.state.username,
                     password: this.state.password

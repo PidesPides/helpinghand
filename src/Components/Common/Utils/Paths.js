@@ -14,9 +14,7 @@ const ServicePathsLabel = {
     Api: "http://localhost:8080/rest/",
     ApiProd: "https://helping-hand-312416.appspot.com/rest/",
     User: "user/",
-    Institution: "institution/",
-    Login:"/login"
-}
+    Institution: "institution/"
 
 const SubServicesLable = {
 
