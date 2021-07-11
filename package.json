@@ -1,30 +1,35 @@
 {
-  "name": "helpinghand",
+  "name": "helping_hand",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8080/",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.12.0",
-    "@testing-library/react": "^11.2.6",
+    "@material-ui/pickers": "^3.3.10",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
-    "axios": "^0.21.1",
-    "bootstrap": "^5.0.1",
+    "bootstrap": "^4.6.0",
+    "date-fns": "^2.22.1",
     "google-maps-react": "^2.0.6",
+    "prop-types": "^15.7.2",
     "react": "^17.0.2",
-    "react-bootstrap": "^1.6.0",
-    "react-bootstrap-sweetalert": "^5.2.0",
+    "react-avatar": "^3.10.0",
+    "react-bootstrap": "^1.6.1",
+    "react-bootstrap-datetimepicker": "^0.0.22",
+    "react-datetime": "^3.0.4",
+    "react-datetime-inputs": "^0.0.6",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^1.1.5",
+    "reactjs-popup": "^2.0.4",
+    "sweetalert": "^2.1.2",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build babel src/ -d lib/",
+    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "prepublish": "npm run build",
-    "flow": "flow"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -35,7 +40,6 @@
   "browserslist": {
     "production": [
       ">0.2%",
-      "not dead",
       "not op_mini all"
     ],
     "development": [
@@ -43,11 +47,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.14.3",
-    "@babel/core": "^7.14.3",
-    "@babel/preset-flow": "^7.13.13",
-    "flow-bin": "^0.151.2"
   }
 }

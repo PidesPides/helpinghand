@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { Map, Marker, InfoWindow, GoogleApiWrapper } from 'google-maps-react';
+import {Table, Button } from 'react-bootstrap';
+import Popup from 'reactjs-popup';
+import { ServicePathsLabel,PathsLabel } from './Paths.js';
+import CreateEvent from './Popups/CreateEvent';
+import CreateHelp from './Popups/CreateHelp';
 
 //por KEY
 const mapStyles = {
-    position: 'fixed',
-    width: '80%',
-    height: '55%',
-    marginLeft: '9%',
-    marginTop: '1%',
-    paddingRight: '-80%'
+    position: 'relative',  
+    width: '100%',
+    height: '91%'
 };
 
 class Maps extends Component {
@@ -37,6 +39,38 @@ class Maps extends Component {
 
         this.addMarker = this.addMarker.bind(this);
         this.showPosition = this.showPosition.bind(this);
+    }
+
+    componentDidMount() {
+    
+    //FALTA TOKEN
+    var urlHelp=ServicePathsLabel.ApiProd + PathsLabel.Help;
+    var urlEvent=ServicePathsLabel.ApiProd + PathsLabel.Event;
+
+    const requestOptions = {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                }
+    //chamar as apis do getEvents e getHelps
+    //url do getHelp: url + ServicePathLabels.Help + token
+    //fazer pedido de get
+    //MUDAR
+    fetch(urlHelp,requestOptions)
+        .then(response => response.json())
+        .then(data => this.setState({ 
+
+        }));
+
+    //url do getEvent: url + ServicePathLabels.Event + token
+    //fazer pedido de get
+    //MUDAR
+    fetch(urlEvent,requestOptions)
+        .then(response => response.json())
+        .then(data => this.setState({
+
+        }));
+
+    //markers vao ser preenchidos com o que vem dos gets
     }
 
     addMarker(t, map, coord) {
@@ -70,34 +104,58 @@ class Maps extends Component {
         });
         this.setState({ load: true });
     }
-
+    //MUDAR O TAMANHO DOS POPUPS
     render() {
         return (
-            <Map onRightclick={this.addMarker}
-                google={this.props.google} zoom={12}
-                style={{ mapStyles }}
-                center={{
-                    lat: this.state.initialCenter[0].position.lat,
-                    lng: this.state.initialCenter[0].position.lng
-                }}>
-                {this.state.markers.map((marker, index) => (
-                    <Marker draggable={true}
-                        onClick={this.onMarkerClick}
-                        title={index + 1}
-                        name={index + 1}
-                        key={index}
-                        position={marker.position}
-                    />
-                ))}
-                <InfoWindow
-                    marker={this.state.activeMarker}
-                    visible={this.state.showingInfoWindow}>
-                    <div>
-                        <h1>{this.state.selectedPlace.name}</h1>
-                    </div>
-                </InfoWindow>
+            <Table size ="sm">
+                <tr>
+                    <td>
+                    <Popup trigger={
+                        <Button variant="outline-primary" className="mt-2" size="sm">
+                            Criar Pedido de Ajuda
+                        </Button>} 
+                        position="right top"
+                        modal>
+                        <CreateHelp />
+                    </Popup>
+  
+                    <Popup trigger={
+                        <Button variant="outline-primary" className="mt-2" size="sm">
+                            Criar Evento
+                        </Button>} 
+                        position="right top"
+                        modal>
+                        <CreateEvent />
+                    </Popup>
+                    </td>
+                </tr>
 
-            </Map>
+                <Map
+                    google={this.props.google} zoom={12}
+                    style={mapStyles}
+                    initialCenter={{
+                        lat: this.state.initialCenter[0].position.lat,
+                        lng: this.state.initialCenter[0].position.lng
+                    }}>
+                    {this.state.markers.map((marker, index) => (
+                        <Marker draggable={true}
+                            onClick={this.onMarkerClick}
+                            title={index + 1}
+                            name={index + 1}
+                            key={index}
+                            position={marker.position}
+                        />
+                    ))}
+                    <InfoWindow
+                        marker={this.state.activeMarker}
+                        visible={this.state.showingInfoWindow}>
+                        <div>
+                            <h1>{this.state.selectedPlace.name}</h1>
+                        </div>
+                    </InfoWindow>
+
+                </Map>
+            </Table>
         );
     }
 
@@ -109,3 +167,4 @@ class Maps extends Component {
 export default GoogleApiWrapper({
     apiKey: ''
 })(Maps);
+//AIzaSyCC3ZNGxhR49xDMOqDB7DT5nUi0qvcPfQo//

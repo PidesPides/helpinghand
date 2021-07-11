@@ -1,0 +1,35 @@
+.divider {
+    border-bottom: 1px solid black;
+}   
+
+.row {
+  display:flex;
+  justify-content:flex-start;
+}
+
+.di_jpg{
+  border-style: solid;
+  border-color: darkcyan;
+  border-width: 5px;
+}
+
+.remote_jpg{
+  border-style: solid;
+  border-color: darkcyan;
+  border-width: 5px;
+}
+
+.office_jpg{
+  border-style: solid;
+  border-color: darkcyan;
+  border-width: 5px;
+}
+
+.description {
+  font-family: "bahnschrift", Times, serif;
+}
+
+.profile_head{
+  text-align: center;
+  justify-content: center;
+}

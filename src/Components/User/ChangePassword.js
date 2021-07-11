@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import { ServicePathsLabel , PathsLabel } from '../Common/Utils/Paths.js';
+import swal from "sweetalert";
 
 const passPattern = '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$';
 //passes iguais OK, regex esta OK e form vazio OK
 //vai ser preciso confirmar que oldPass e igual a pass que esta neste user!!!
-//por user no construtor?
+//preciso de ter um changepassword para inst?
 
-// FAZER VERIFICAÇAO DE LOGIN SABER SE PODES ESTAR NUM ECRA VER FRED PO CARALHO!!!
+// FAZER VERIFICAÇAO DE LOGIN SABER SE PODES ESTAR NUM ECRA
 class ChangePassword extends Component {
     constructor(props) {
         super(props)
@@ -23,23 +25,20 @@ class ChangePassword extends Component {
 
     handleChangePass(e) {
         //como ir buscar username para o link?
-        //tenho de fazer tambem com a diferença para institution e user? SIM
+        //tenho de fazer tambem com a diferença para institution e user? USAR O ROLE
         var url = ServicePathsLabel.ApiProd;
-        if (this.state.isInstitution) {
-            url += ServicePathsLabel.Institution + sessionStorage.getItem('id') + ServicePathsLabel.ChangePassword;
+        var matchPass = this.state.password === this.state.password2;
+        //if (!this.state.password || !this.state.password2 || !matchPass)
+            //meter alert e return
+        
+        if (sessionStorage.getItem("role") === "INSTITUTION") { //verificar o role aqui!!!
+            url += ServicePathsLabel.Institution + "/" + sessionStorage.getItem('id') + PathsLabel.ChangePassword + '?tokenId=' + sessionStorage.getItem('token');
+            console.log(e.target.parentNode.checkValidity())
             if (e.target.parentNode.checkValidity()) {
-                let json: Institution = {
-                    token: sessionStorage.getItem('token'),
+                let json: Password = {
                     oldPassword: this.state.oldPass,
                     newPassword:this.state.newPass,
-                    confirmation:this.state.newPass2
-                    /*
-                    data:{
-                    oldPassword: this.state.oldPass,
-                    newPassword:this.state.newPass,
-                    confirmation:this.state.newPass2
-                    }
-                    */
+                    confirmation:this.state.newPass2   
                 }
                 const requestOptions = {
                     method: 'PUT',
@@ -48,8 +47,14 @@ class ChangePassword extends Component {
                 };                   
                 fetch(url, requestOptions)
                 .then(data => {
-                    
-                    //sweet alert?
+                     //if (response.ok) {
+                        swal("Mudança de password feita com sucesso.", " ","success");
+                        //return response.json();
+                    //}else{
+                        //alert
+                        //this.setState({error: response.statusText});
+                        //throw new Error(response.statusText);
+                    //}
                 })
                 .catch(
                     //arrow functions
@@ -57,39 +62,42 @@ class ChangePassword extends Component {
                 
             }
             else {
-                alert("Por favor preencha todos os campos.")
+                swal("Por favor preencha todos os campos.", "error");
+                console.log("deu erro institution")
             }
-        }
-        else {
-            url += ServicePathsLabel.User + sessionStorage.getItem('id') + ServicePathsLabel.ChangePassword;
+        } 
+        if(sessionStorage.getItem("role") === "USER"){
+            url += ServicePathsLabel.User + "/" + sessionStorage.getItem('id') + PathsLabel.ChangePassword + '?tokenId=' + sessionStorage.getItem('token');
             if (e.target.parentNode.checkValidity()) {
-                let json: User = {
-                    token: sessionStorage.getItem('token'),
+                let json: Password = {
                     oldPassword: this.state.oldPass,
                     newPassword:this.state.newPass,
                     confirmation:this.state.newPass2
                 }
                 const requestOptions = {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 'Content-Type': 'application/json'},
+                    //'Authorization' : 'Bearer ' + sessionStorage.getItem('token')},
                     body: JSON.stringify(json)
                 };
                 fetch(url, requestOptions)
                 .then(data => {
-                    
+                    //console.log(response)
+                    //if(response.ok)
+                        swal("Mudança de password feita com sucesso.", " ","success");
+                        //return response.json();
                     //arrow functions
-                   alert('Correu bem.')
                 })
                 .catch(
                     //arrow functions
                 );
             }
             else {
-                alert("Por favor preencha todos os campos.")
+                swal("Por favor preencha todos os campos.", "error");
+                console.log("deu erro")
             }
 
         }
-
         e.preventDefault();
     }
 
@@ -144,12 +152,11 @@ class ChangePassword extends Component {
                         }
                     </Form.Group>
 
-                    <Button variant="primary" onClick={this.handleUpdate}>
+                    <Button variant="primary" className="mt-2" onClick={this.handleChangePass}>
                         Atualizar
                     </Button>
                 </Form>
-
-
+            
             </div>
         )
 

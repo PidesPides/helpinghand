@@ -1,14 +1,14 @@
-import { Component } from "react";
-import { Nav, Navbar } from 'react-bootstrap';
+import React,{ Component } from "react";
+import { Nav, Navbar } from 'react-bootstrap';  
+
 
 class Footer extends Component {
-
-
 
     render() {
         return (
             //IGUAL AO MENU
-            <Navbar sticky="bottom" bg="dark" variant="dark">
+                     //IGUAL AO MENU
+            <Navbar fixed="bottom" bg="dark" variant="dark">
                 <Nav className="mr-auto">
                     <Nav.Link href="#aboutus">Sobre nós</Nav.Link>
                 </Nav>
@@ -18,6 +18,8 @@ class Footer extends Component {
 }
 
 export default Footer;
+
+
 
 
 

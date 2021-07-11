@@ -1,87 +1,127 @@
-import React, { Component } from 'react';
-import { Tab, Nav, Col, Row, Button } from 'react-bootstrap';
-import { SweetAlert } from "react-bootstrap-sweetalert";
-import ChangePassword from './ChangePassword.js';
-import UpdateInfo from './UpdateInfo.js';
+//imports
+import React,{Component} from 'react';
+import {Table,Form} from 'react-bootstrap';
+import { ServicePathsLabel,PathsLabel } from '../Common/Utils/Paths.js';
+import Avatar from 'react-avatar';
 
-//por aqui o handleDelete
+class Profile extends Component{
 
-// por espaço entre os botoes
-
-class Profile extends Component {
-    constructor(props) {
+    constructor(props){
         super(props)
-        this.state= {
-            error: ''
+        this.state={
+            username:'',
+            phone:'',
+            addr1:'',
+            addr2:'',
+            city:'',
+            zip:''
         }
-        this.handleDelete = this.handleDelete.bind(this);
         this.onChange = this.onChange.bind(this);
-        this.onSelect = this.onSelect.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
     }
 
-    handleDelete(e){
-        //por link de prod
-        var url = ServicePathsLabel.ApiProd;
-        //preciso de if?como ver o que ta na sessionstorage e user ou inst?
-        url += ServicePathsLabel.User + this.state.username + PathsLabel.Delete;
-        //por link de user
-        //janela de confirmaçao
-        //pedido de delete, limpar session storage e voltar a home de guest
+    onChange(e) {
+    const target = e.target;
+    const value = target.value;
+    const name = target.name;
+    this.setState({ ...this.state, [name]: value });
+    console.log(this.state)
+    }
+
+    //pedido de get
+    //ISTO TEM DE SER UM COMPONENTDIDMOUNT
+    componentDidMount(){
+        //url para o profile
+        var url =ServicePathsLabel.ApiProd;
+        //NAO E PRECISO diferenciar entre user e instituiçao    
+        url += ServicePathsLabel.User + "/" + sessionStorage.getItem('id')
+        + PathsLabel.UpdateInfo + '?tokenId=' + sessionStorage.getItem('token');
+        //fazer requestsOptions    
+        const requestOptions = {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        }
         
-        //por link de inst
-        //janela de confirmaçao
-        //pedido de delete, limpar session storage e voltar a home de guest
-                const requestOptions = {
-                    method: 'DELETE',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(json)
-                };
-                fetch(url,requestOptions).
-                then(response => {
-                    sessionStorage.clear();
-                    this.setState({});
-                    window.location.hash = "/";
-                })
-                .catch()
-                
-
-                
+        //fazer fetch
+        fetch(url,requestOptions)
+        .then(response => response.json())
+        .then(data => this.setState({
+            phone: data.phone,
+            addr1: data.address1,
+            addr2: data.address2,
+            zip: data.zipcode,
+            city: data.city
+        })).catch(
+            //arrow functions
+        );
+    
     }
+       
+    //ver layout no paint
+    //tabela com 2 rows
+    //1º row - 2 linhas
+    //2ºrow - tabela
+    //fazer form com readonly
+    render(){
+        return(
+            <Form>
+                <Table size="lg">
+                    <td>
+                        <tr>
+                            <td>
+                                avatar
+                            </td>
+                            <td>
+                                <tr>
+                                <Form.Group controlId="formUsername">
+                                    <Form.Label ><u>Username</u></Form.Label>
+                                    <Form.Control plaintext readOnly defaultValue={sessionStorage.getItem('id')} />
+                                </Form.Group>
 
-    render() {
-        return (
-                <Tab.Container id="left-tabs-example" defaultActiveKey="updateInfo">
-                    <Row>
-                        <Col sm={3}>
-                            <Nav variant="pills" className="flex-column">
-                                <Nav.Item>
-                                    <Nav.Link eventKey="updateInfo">Info</Nav.Link>
-                                </Nav.Item>
-                                <Nav.Item>
-                                    <Nav.Link eventKey="password">Mudar Pass</Nav.Link>
-                                </Nav.Item>
-                            </Nav>
-                            <hr></hr>
-                            <Button variant="danger" className="mt-2" onClick={this.handleDelete} size="lg" block>
-                                Apagar Conta
-                            </Button>
-                        </Col>
-                        <Col sm={9}>
-                            <Tab.Content>
-                                <Tab.Pane eventKey="updateInfo">
-                                    <UpdateInfo />
-                                </Tab.Pane>
-                                <Tab.Pane eventKey="password">
-                                    <ChangePassword />
-                                </Tab.Pane>
+                                <Form.Group controlId="formPhone">
+                                    <Form.Label ><u>Telefone</u></Form.Label>
+                                    <Form.Control plaintext readOnly defaultValue={this.state.phone} />
+                                </Form.Group>    
+                                </tr>
+                            </td>
+                            <td>
+                                <tr>
+                                   <Form.Group controlId="formAddr1">
+                                    <Form.Label ><u>Morada</u></Form.Label>
+                                    <Form.Control plaintext readOnly defaultValue={this.state.addr1} />
+                                </Form.Group>
+
+                                <Form.Group controlId="formAddr2">
+                                    <Form.Label ><u>Morada alternativa</u></Form.Label>
+                                    <Form.Control plaintext readOnly defaultValue={this.state.addr2} />
+                                </Form.Group>
+                                </tr>
+                            </td>
+                            <td>
+                                <tr>
+                                <Form.Group controlId="formCity">
+                                    <Form.Label ><u>Cidade</u></Form.Label>
+                                    <Form.Control plaintext readOnly defaultValue={this.state.city} />
+                                </Form.Group>
                                 
-                            </Tab.Content>
-                        
-                        </Col>
-                    </Row>
-                </Tab.Container>
+                                <Form.Group controlId="formZip">
+                                    <Form.Label ><u>Código Postal</u></Form.Label>
+                                    <Form.Control plaintext readOnly defaultValue={this.state.zip} />
+                                </Form.Group>
+
+                                </tr>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                opçoes
+                            </td>
+                        </tr>
+                    </td>
+                </Table>
+            </Form>   
         )
     }
-}
 
+}
 export default Profile;

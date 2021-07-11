@@ -2,28 +2,34 @@ const PathsLabel = {
     Home: "/",
     Register: "/register",
     Login: "/login",
-    UpdateInfo: "/updateinfo",
+    UpdateInfo: "/info",
     Profile: "/profile",
+    ProfileSettings:"/profilesettings",
     ChangePassword: "/password",
     Maps: "/maps",
     Delete: "/delete",
+    Event: "/event",
+    Help: "/help",
+    BackOffice: "/backoffice",
     AboutUs: "/aboutus"
 }
 
 const ServicePathsLabel = {
     Api: "http://localhost:8080/rest/",
-    ApiProd: "https://helping-hand-312416.appspot.com/rest/",
-    User: "user/",
-    Institution: "institution/"
+    ApiProd: "https://thehelpinghand.ew.r.appspot.com/rest/",
+    User: "user",
+    Institution: "institution"
 
+}
 const SubServicesLable = {
 
 }
 
 const Roles = {
-    User: "user",
+    User: "user/",
     Institution: "institution",
-    Admin: "admin"
+    Admin: "admin",
+    Gbo:"gbo"
 }
 
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button, Dropdown, DropdownButton } from 'react-bootstrap';
 import { ServicePathsLabel,PathsLabel } from '../Common/Utils/Paths.js';
+import swal from 'sweetalert';
 
 const passPattern = '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*?/="])[a-zA-Z0-9!@#$%^&*?/="]{8,20}$';
 
@@ -32,12 +33,12 @@ class Register extends Component {
             url += ServicePathsLabel.Institution;
             if (e.target.parentNode.checkValidity()) {
                 let json: Institution = {
+                    id: this.state.institutionUsername,
                     name: this.state.institutionName,
-                    initials: this.state.institutionInitials,
-                    instId: this.state.institutionUsername,
+                    initials: this.state.institutionInitials,  
                     email: this.state.institutionEmail,
                     password: this.state.password,
-                    confPassword:this.state.password2
+                    confirmation:this.state.password2
                 }
                 const requestOptions = {
                     method: 'POST',
@@ -46,6 +47,7 @@ class Register extends Component {
                 };                   
                 fetch(url, requestOptions)
                 .then(data => {
+                    swal("Registo feito com sucesso.", " ","success");
                     window.location.hash = PathsLabel.Login;
                     //sweet alert?
                 })
@@ -55,17 +57,18 @@ class Register extends Component {
                 
             }
             else {
-                alert("Por favor preencha todos os campos.")
+                //alert("Por favor preencha todos os campos.")
+                swal("Por favor preencha todos os campos.", " ", "warning");
             }
         }
         else {
             url += ServicePathsLabel.User;
             if (e.target.parentNode.checkValidity()) {
                 let json: User = {
-                    userId: this.state.username,
+                    id: this.state.username,
                     email: this.state.email,
                     password: this.state.password,
-                    confPassword: this.state.password2
+                    confirmation: this.state.password2
                 }
                 const requestOptions = {
                     method: 'POST',
@@ -74,16 +77,19 @@ class Register extends Component {
                 };
                 fetch(url, requestOptions)
                 .then(data => {
+                    swal("Registo feito com sucesso.", " ","success");
                      window.location.hash = PathsLabel.Login;
                     //sweet alert                    
-                   alert('Correu bem.')
+
+
                 })
                 .catch(
                     //arrow functions
                 );
             }
             else {
-                alert("Por favor preencha todos os campos.")
+               //alert("Por favor preencha todos os campos.")
+                swal("Por favor preencha todos os campos.", " ", "warning");
             }
 
         }

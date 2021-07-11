@@ -1,8 +1,10 @@
-import { Component } from "react";
+import React,{ Component } from "react";
 import { Navbar, Nav } from 'react-bootstrap';
 import { PathsLabel } from "../Utils/Paths";
 import { MenuItem } from './MenuItem';
+import { BsFillGearFill } from "react-icons/bs";
 
+//tratar da roda dentada
 class Menu extends Component {
     constructor(props){
         super(props)
@@ -12,7 +14,7 @@ class Menu extends Component {
         sessionStorage.setItem("activeMenuItem", id);
         this.setState({});
     }
-
+    //fazer sweetalert de logout
     logout(){
         sessionStorage.clear();
         this.setState({});
@@ -20,6 +22,11 @@ class Menu extends Component {
     }
 
     loggedInMenu() {
+        var isGbo = false;
+        if(sessionStorage.getItem("role") === "GBO")
+            isGbo = true;
+
+
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -33,9 +40,20 @@ class Menu extends Component {
 
                         <MenuItem id="maps" href={PathsLabel.Maps} label="Maps" isActive={true}
                             onClick={() => this.setActiveMenuItem("maps")} />
+                        { isGbo &&
+                            <MenuItem id="backoffice" href={PathsLabel.BackOffice} label="BackOffice"
+                            isActive={true} onClick={() => this.setActiveMenuItem("backoffice")} />    
+                        }
                     </Nav>            
                 </Navbar.Collapse>
+
                 <Nav className="ml-auto mr-4 ">
+                        <MenuItem id="ProfileSettings" href={PathsLabel.ProfileSettings} label="Settings"
+                        onClick={() => this.setActiveMenuItem("profilesettings")}>
+                            <BsFillGearFill />
+                        </MenuItem>
+                        
+                        
                         <MenuItem id="Logout" href="" label="Logout" onClick={this.logout}></MenuItem>
                     </Nav>
             </Navbar>

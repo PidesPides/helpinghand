@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Form, Button,Dropdown,DropdownButton } from 'react-bootstrap';
+import { Form, Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import SweetAlert from 'react-bootstrap-sweetalert';
-import { ServicePathsLabel } from '../Common/Utils/Paths.js';
-
+import { ServicePathsLabel ,PathsLabel} from '../Common/Utils/Paths.js';
+import swal from 'sweetalert';
 
 //espaço entre os campos e o botao
 
@@ -25,14 +24,12 @@ class Login extends Component {
 
 
     handleLogin(e) {
-        //posso por types(UserLogin?)
-        //se mandam as cenas em string => usar o return response.text()!!!!
         var url = ServicePathsLabel.ApiProd; 
         if (e.target.parentNode.checkValidity()) {
             if(!this.state.isInstitution){
-                url += ServicePathsLabel.User + this.state.username + PathsLabel.Login;
+                url += ServicePathsLabel.User + "/" +this.state.username + PathsLabel.Login;
                 let json: Login = {
-                    clientId: this.state.username,
+                    id: this.state.username,
                     password: this.state.password
                 }
                 const requestOptions = {
@@ -43,30 +40,33 @@ class Login extends Component {
                 fetch(url,requestOptions) 
                 .then(response => {
                    if (response.ok) {
-                       //maudar resposnta pa json
-                        return response.text();
+                        return response.json();
+
                     }else{
                         this.setState({error: response.statusText});
                         throw new Error(response.statusText);
                     }
                 })
-                .then(token => {
-                    sessionStorage.setItem('token', token);
+                .then(json => {
+                    
+                    sessionStorage.setItem('token', json.token);
                     sessionStorage.setItem('id',this.state.username);
+                    sessionStorage.setItem('role',json.role)
                     window.location.hash = "/";
                     window.location.reload();
+                    console.log(json)
+                
                 })
                 .catch(error => {
                     console.log(error)    
                     return;
                 }
                 );
-
             }
             else{
-                url += ServicePathsLabel.Institution + this.state.username + PathsLabel.Login;
+                url += ServicePathsLabel.Institution + "/" + this.state.username + PathsLabel.Login;
                 let json: Login = {
-                    clientId: this.state.username,
+                    id: this.state.username,
                     password: this.state.password
                 }
                 const requestOptions = {
@@ -77,17 +77,16 @@ class Login extends Component {
                 fetch(url,requestOptions) 
                 .then(response => {
                     if (response.ok) {
-                        //resposta pa json
-                        //return response.json();
-                        return response.text();
+                        return response.json();
                     }else{
                         this.setState({error: response.statusText});
                         throw new Error(response.statusText);
                     }
                 })
                 .then(token => {
-                    sessionStorage.setItem('token', token);
+                    sessionStorage.setItem('token', json.token);
                     sessionStorage.setItem('id',this.state.username);
+                    sessionStorage.setItem('role',json.role)
                     window.location.hash = "/";
                     window.location.reload();
                 })
@@ -99,7 +98,7 @@ class Login extends Component {
             
         }
         else {
-            alert("Por favor preencha todos os campos.")
+            swal("Por favor preencha todos os campos.", "error");
         }
 
     }
@@ -119,7 +118,6 @@ class Login extends Component {
             isInstitution = false;
         }
         this.setState({ isInstitution: isInstitution });
-
     }
 
     hideAlert(){
@@ -128,19 +126,8 @@ class Login extends Component {
 
     //mudar o link para a cena final
     render() {
-        const isInstitution = this.state.isInstitution;
-        var dropdownTitle = 'Utilizador';
-        if (isInstitution) {
-            dropdownTitle = 'Instituição';
-        }
         return (
             <div className="p-5">
-                <p>Que tipo de utilizador é?</p>
-                <DropdownButton id="dropdown-basic-button" variant='info' title={dropdownTitle} >
-                    <Dropdown.Item eventKey='1' active={!isInstitution} onSelect={() => this.onSelect('1')}>Utilizador</Dropdown.Item>
-                    <Dropdown.Item eventKey='2' active={isInstitution} onSelect={() => this.onSelect('2')}>Instituição</Dropdown.Item>
-                </DropdownButton>
-                <hr></hr>
                 <Form>
                     <Form.Group controlId="formUsername">
                         <Form.Label>Username</Form.Label>
@@ -160,19 +147,15 @@ class Login extends Component {
 
                 </Form>
 
-
                 <Link to="/register">Não estás registado? Carrega aqui.</Link>
 
-                {this.state.error !== '' && /*alerts*/
-                    <SweetAlert danger title={this.state.error} onConfirm={this.hideAlert}>
-    
-                    </SweetAlert>
-                }
             </div>
-
 
         );
     }
 }
+
+
+
 
 export default Login;
