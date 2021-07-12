@@ -27,9 +27,9 @@ const SubServicesLable = {
 
 const Roles = {
     User: "user/",
-    Institution: "institution",
-    Admin: "admin",
-    Gbo:"gbo"
+    Institution: "institution/",
+    Admin: "admin/",
+    Gbo:"gbo/"
 }
 
 

@@ -63,38 +63,6 @@ class Login extends Component {
                 }
                 );
             }
-            else{
-                url += ServicePathsLabel.Institution + "/" + this.state.username + PathsLabel.Login;
-                let json: Login = {
-                    id: this.state.username,
-                    password: this.state.password
-                }
-                const requestOptions = {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(json)
-                };
-                fetch(url,requestOptions) 
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    }else{
-                        this.setState({error: response.statusText});
-                        throw new Error(response.statusText);
-                    }
-                })
-                .then(token => {
-                    sessionStorage.setItem('token', json.token);
-                    sessionStorage.setItem('id',this.state.username);
-                    sessionStorage.setItem('role',json.role)
-                    window.location.hash = "/";
-                    window.location.reload();
-                })
-                .catch(error => {
-                    console.log(error)    
-                    return;
-                });
-            }
             
         }
         else {

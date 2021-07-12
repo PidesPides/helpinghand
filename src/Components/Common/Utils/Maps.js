@@ -42,7 +42,6 @@ class Maps extends Component {
     }
 
     componentDidMount() {
-    
     //FALTA TOKEN
     var urlHelp=ServicePathsLabel.ApiProd + PathsLabel.Help;
     var urlEvent=ServicePathsLabel.ApiProd + PathsLabel.Event;
@@ -58,7 +57,7 @@ class Maps extends Component {
     fetch(urlHelp,requestOptions)
         .then(response => response.json())
         .then(data => this.setState({ 
-
+            //por aqui markers: [...]
         }));
 
     //url do getEvent: url + ServicePathLabels.Event + token
@@ -67,7 +66,7 @@ class Maps extends Component {
     fetch(urlEvent,requestOptions)
         .then(response => response.json())
         .then(data => this.setState({
-
+            //por aqui markers: [...]
         }));
 
     //markers vao ser preenchidos com o que vem dos gets
@@ -138,8 +137,7 @@ class Maps extends Component {
                         lng: this.state.initialCenter[0].position.lng
                     }}>
                     {this.state.markers.map((marker, index) => (
-                        <Marker draggable={true}
-                            onClick={this.onMarkerClick}
+                        <Marker draggable={false}
                             title={index + 1}
                             name={index + 1}
                             key={index}

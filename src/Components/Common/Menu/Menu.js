@@ -48,12 +48,6 @@ class Menu extends Component {
                 </Navbar.Collapse>
 
                 <Nav className="ml-auto mr-4 ">
-                        <MenuItem id="ProfileSettings" href={PathsLabel.ProfileSettings} label="Settings"
-                        onClick={() => this.setActiveMenuItem("profilesettings")}>
-                            <BsFillGearFill />
-                        </MenuItem>
-                        
-                        
                         <MenuItem id="Logout" href="" label="Logout" onClick={this.logout}></MenuItem>
                     </Nav>
             </Navbar>

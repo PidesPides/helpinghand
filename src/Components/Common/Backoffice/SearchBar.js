@@ -21,7 +21,7 @@ class SearchBar extends Component {
     }
 
     delete() {
-        var url =  ServicePathsLabel.ApiProd + Roles.user + this.state.deleteID + '?tokenId=' + sessionStorage.getItem('token');
+        var url =  ServicePathsLabel.ApiProd + Roles.User + this.state.deleteID + '?tokenId=' + sessionStorage.getItem('token');
 
         const requestOptions = {
             method: 'DELETE',
@@ -38,7 +38,7 @@ class SearchBar extends Component {
                     }
                 })
                 .catch(
-                    console.log("Erro no delete!")
+                    //console.log("Erro no delete!")
                 );
     }
 

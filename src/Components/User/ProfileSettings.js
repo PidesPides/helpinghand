@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Tab, Nav, Col, Row, Button } from 'react-bootstrap';
 import swal from 'sweetalert';
+import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import ChangePassword from './ChangePassword.js';
 import UpdateInfo from './UpdateInfo.js';
-import { ServicePathsLabel,PathsLabel } from '../Common/Utils/Paths.js';
+import { ServicePathsLabel} from '../Common/Utils/Paths.js';
 
 //por aqui o handleDelete
 
@@ -13,9 +14,15 @@ class ProfileSettings extends Component {
     constructor(props) {
         super(props)
         this.state= {
-            error: ''
+            error: '',
+            isPublic:true
         }
         this.handleDelete = this.handleDelete.bind(this);
+        this.changeVisibility = this.changeVisibility.bind(this);
+    }
+
+    changeVisibility(e){
+        this.setState({isPublic: !this.state.isPublic})
     }
 
     handleDelete(e){
@@ -92,9 +99,9 @@ class ProfileSettings extends Component {
 
     render() {
         return (
-                <Tab.Container id="profileSettingsMenu" defaultActiveKey="updateInfo">
+                <Tab.Container id="profileSettingsMenu" defaultActiveKey="updateInfo" PullRight >
                     <Row>
-                        <Col sm={3}>
+                        <Col sm={2} >
                             <Nav variant="pills" className="flex-column">
                                 <Nav.Item>
                                     <Nav.Link eventKey="updateInfo">Info</Nav.Link>
@@ -103,6 +110,17 @@ class ProfileSettings extends Component {
                                     <Nav.Link eventKey="password">Mudar Pass</Nav.Link>
                                 </Nav.Item>
                             </Nav>
+                            <hr></hr>
+                            <h5>Visibilidade</h5>
+                            <BootstrapSwitchButton
+                                checked={this.state.isPublic}
+                                onlabel='Público'
+                                offlabel='Privado'
+                                onChange={this.changeVisibility}
+                                width={100}
+                                size='sm'
+                                style="center"
+                            />
                             <hr></hr>
                             <Button variant="danger" className="mt-2" onClick={this.handleDelete} size="sm" block>
                                 Apagar Conta

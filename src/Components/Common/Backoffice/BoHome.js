@@ -1,7 +1,5 @@
 import React, {Component} from "react";
 import Table from 'react-bootstrap/Table'
-import ReactDOM from "react-dom";
-
 import SearchBar from './SearchBar.js';
 import './BoHome.css';
 

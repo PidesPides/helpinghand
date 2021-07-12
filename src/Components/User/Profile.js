@@ -1,6 +1,7 @@
 //imports
 import React,{Component} from 'react';
 import {Table,Form} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { ServicePathsLabel,PathsLabel } from '../Common/Utils/Paths.js';
 import Avatar from 'react-avatar';
 
@@ -69,7 +70,7 @@ class Profile extends Component{
                     <td>
                         <tr>
                             <td>
-                                avatar
+                                <Avatar githubHandle="PidesPides" size="100" round={true} />
                             </td>
                             <td>
                                 <tr>
@@ -114,7 +115,7 @@ class Profile extends Component{
                         </tr>
                         <tr>
                             <td>
-                                opçoes
+                                <Link to="/profilesettings">Definições de Conta</Link>
                             </td>
                         </tr>
                     </td>
