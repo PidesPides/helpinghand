@@ -8,7 +8,7 @@ class Footer extends Component {
         return (
             //IGUAL AO MENU
                      //IGUAL AO MENU
-            <Navbar fixed="bottom" bg="dark" variant="dark">
+            <Navbar sticky="bottom" bg="dark" variant="dark">
                 <Nav className="mr-auto">
                     <Nav.Link href="#aboutus">Sobre nós</Nav.Link>
                 </Nav>

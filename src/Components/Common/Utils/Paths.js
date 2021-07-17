@@ -8,8 +8,10 @@ const PathsLabel = {
     ChangePassword: "/password",
     Maps: "/maps",
     Delete: "/delete",
-    Event: "/event",
-    Help: "/help",
+    Event: "event",
+    Help: "help",
+    offerHelp: "/offer",
+    joinEvent: "/join",
     BackOffice: "/backoffice",
     AboutUs: "/aboutus"
 }

@@ -47,9 +47,10 @@ class Register extends Component {
                 };                   
                 fetch(url, requestOptions)
                 .then(data => {
-                    swal("Registo feito com sucesso.", " ","success");
-                    window.location.hash = PathsLabel.Login;
-                    //sweet alert?
+                    swal("Registo feito com sucesso.", " ","success")
+                    .then(() => {
+                        window.location.hash = PathsLabel.Login;
+                    });
                 })
                 .catch(
                     
@@ -77,11 +78,10 @@ class Register extends Component {
                 };
                 fetch(url, requestOptions)
                 .then(data => {
-                    swal("Registo feito com sucesso.", " ","success");
-                     window.location.hash = PathsLabel.Login;
-                    //sweet alert                    
-
-
+                    swal("Registo feito com sucesso.", " ","success")
+                    .then(() => {
+                        window.location.hash = PathsLabel.Login;
+                    });
                 })
                 .catch(
                     //arrow functions
@@ -176,7 +176,7 @@ class Register extends Component {
                         </Form.Group>
 
                         <Button variant="primary" className="mt-2" onClick={this.handleRegister}>
-                            Register
+                            Registar
                         </Button>
                     </Form>
                 }
@@ -235,7 +235,7 @@ class Register extends Component {
                             </Form.Group>
                             
                             <Button variant="primary" className="mt-2" onClick={this.handleRegister}>
-                                Register
+                                Registar
                             </Button>
                         </Form>
                     </div>

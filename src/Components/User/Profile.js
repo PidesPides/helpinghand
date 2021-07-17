@@ -70,7 +70,7 @@ class Profile extends Component{
                     <td>
                         <tr>
                             <td>
-                                <Avatar githubHandle="PidesPides" size="100" round={true} />
+                                <Avatar githubHandle="PidesPides" size="200" round={true} />
                             </td>
                             <td>
                                 <tr>

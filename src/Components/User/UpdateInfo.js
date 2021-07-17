@@ -44,7 +44,7 @@ class UpdateInfo extends Component {
                 );
             }
         
-        if(sessionStorage.getItem("role") === "USER"){
+        else{
             url += ServicePathsLabel.User + "/" + sessionStorage.getItem('id')
             + PathsLabel.UpdateInfo + '?tokenId=' + sessionStorage.getItem('token');
             let json: User = {

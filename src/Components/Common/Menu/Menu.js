@@ -35,10 +35,10 @@ class Menu extends Component {
                         <MenuItem id="home" href="/" label="Home" isActive={true}
                             onClick={() => this.setActiveMenuItem("home")} />
 
-                        <MenuItem id="profile" href={PathsLabel.Profile} label="Profile" isActive={true}
+                        <MenuItem id="profile" href={PathsLabel.Profile} label="Perfil" isActive={true}
                             onClick={() => this.setActiveMenuItem("profile")} />
 
-                        <MenuItem id="maps" href={PathsLabel.Maps} label="Maps" isActive={true}
+                        <MenuItem id="maps" href={PathsLabel.Maps} label="Mapa de Ajudas" isActive={true}
                             onClick={() => this.setActiveMenuItem("maps")} />
                         { isGbo &&
                             <MenuItem id="backoffice" href={PathsLabel.BackOffice} label="BackOffice"
@@ -48,7 +48,7 @@ class Menu extends Component {
                 </Navbar.Collapse>
 
                 <Nav className="ml-auto mr-4 ">
-                        <MenuItem id="Logout" href="" label="Logout" onClick={this.logout}></MenuItem>
+                        <MenuItem id="Logout" href="" label="Terminar Sessão" onClick={this.logout}></MenuItem>
                     </Nav>
             </Navbar>
         );
@@ -63,11 +63,11 @@ class Menu extends Component {
                         <MenuItem id="home" href="/" label="Home" isActive={true}
                             onClick={() => this.setActiveMenuItem("home")} />
 
-                        <MenuItem id="login" href={PathsLabel.Login} label="Login" isActive={false}
-                            onClick={() => this.setActiveMenuItem("login")} />
-
-                        <MenuItem id="register" href={PathsLabel.Register} label="Register" isActive={true}
+                        <MenuItem id="register" href={PathsLabel.Register} label="Registar" isActive={true}
                             onClick={() => this.setActiveMenuItem("register")} />
+
+                        <MenuItem id="login" href={PathsLabel.Login} label="Iniciar Sessão" isActive={false}
+                            onClick={() => this.setActiveMenuItem("login")} />
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

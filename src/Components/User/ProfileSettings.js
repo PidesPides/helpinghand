@@ -5,6 +5,7 @@ import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import ChangePassword from './ChangePassword.js';
 import UpdateInfo from './UpdateInfo.js';
 import { ServicePathsLabel} from '../Common/Utils/Paths.js';
+import "./ProfileSetting.css";
 
 //por aqui o handleDelete
 
@@ -112,15 +113,16 @@ class ProfileSettings extends Component {
                             </Nav>
                             <hr></hr>
                             <h5>Visibilidade</h5>
-                            <BootstrapSwitchButton
-                                checked={this.state.isPublic}
-                                onlabel='Público'
-                                offlabel='Privado'
-                                onChange={this.changeVisibility}
-                                width={100}
-                                size='sm'
-                                style="center"
-                            />
+                            <div className="switch">
+                                <BootstrapSwitchButton
+                                    checked={this.state.isPublic}
+                                    onlabel='Público'
+                                    offlabel='Privado'
+                                    onChange={this.changeVisibility}
+                                    width={100}
+                                    size='sm'
+                                />
+                            </div>
                             <hr></hr>
                             <Button variant="danger" className="mt-2" onClick={this.handleDelete} size="sm" block>
                                 Apagar Conta

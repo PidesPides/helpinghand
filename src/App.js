@@ -12,6 +12,8 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'reactjs-popup/dist/index.css';
 import "react-datetime/css/react-datetime.css";
+//import "./Components/Common/Utils/Popups/CreateEvent.css";
+
 
 //imports
 import Menu from './Components/Common/Menu/Menu.js';
