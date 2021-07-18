@@ -23,9 +23,6 @@ const ServicePathsLabel = {
     Institution: "institution"
 
 }
-const SubServicesLable = {
-
-}
 
 const Roles = {
     User: "user/",
@@ -35,4 +32,4 @@ const Roles = {
 }
 
 
-export { PathsLabel, ServicePathsLabel, SubServicesLable, Roles };
+export { PathsLabel, ServicePathsLabel, Roles };

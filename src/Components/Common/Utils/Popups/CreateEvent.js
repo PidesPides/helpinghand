@@ -26,7 +26,7 @@ class CreateEvent extends Component{
         this.handleEvent = this.handleEvent.bind(this);
         this.handleStartDate = this.handleStartDate.bind(this);
         this.handleEndDate = this.handleEndDate.bind(this);
-        this.convertLocation = this.convertLocation.bind(this);   
+        //this.convertLocation = this.convertLocation.bind(this);   
     }
 
     onChange(e) {

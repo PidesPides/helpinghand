@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Map, Marker,  GoogleApiWrapper } from 'google-maps-react';
-import {Table, Button } from 'react-bootstrap';
+import { Map , Marker,  GoogleApiWrapper } from 'google-maps-react';
+import { Table, Button, Row, Col } from 'react-bootstrap';
 import { ServicePathsLabel,PathsLabel } from './Paths.js';
 import Popup from 'reactjs-popup';
-import dateFormat from "dateformat";
+import dateFormat from 'dateformat';
 import swal from 'sweetalert';
 import CreateEvent from './Popups/CreateEvent';
 import CreateHelp from './Popups/CreateHelp.js';
 import InfoWindowEx from './Popups/InfoWindowPopUp.js';
+import legenda from '../../../legenda.png';
 
 //por KEY
 const mapStyles = {
@@ -124,7 +125,7 @@ class Maps extends Component {
         fetch(url, requestOptions)
         .then(data => {
             //fazer if no swal para reload da pagina
-            swal(".", " ","success")
+            swal("Sucesso", "Tens de esperar que a pessoa aceite a tua ajuda.","success")
         }) 
         .catch(
             
@@ -145,11 +146,7 @@ class Maps extends Component {
         fetch(url, requestOptions)
         .then(data => {
             //fazer if no swal para reload da pagina
-            swal("teste", " ","success")
-            .then(() => {
-                
-            });
-            
+            swal("Sucesso.", " ","success")         
         }) 
         .catch(
             
@@ -179,13 +176,13 @@ class Maps extends Component {
         });
         this.setState({ load: true });
     }
-    //MUDAR O TAMANHO DOS POPUPS
+
     render() {
         console.log(this.state.markers)
         return (
-            <Table size ="sm">
-                <tr>
-                    <td>
+            <Table size="sm">
+                <Row>
+                    <Col sm={2}>
                     <Popup trigger={
                         <Button variant="outline-primary" className="mt-2" size="sm">
                             Criar Pedido de Ajuda
@@ -196,7 +193,8 @@ class Maps extends Component {
                         >
                         <CreateHelp />
                     </Popup>
-  
+                    </Col>
+                    <Col sm>
                     <Popup trigger={
                         <Button variant="outline-primary" className="mt-2" size="sm">
                             Criar Evento
@@ -207,19 +205,20 @@ class Maps extends Component {
                         >
                         <CreateEvent />
                     </Popup>
-                    </td>
-                </tr>
-
+                    </Col>
+                </Row>
+            
                 <Map
-                    google={this.props.google} zoom={12}
-                    style={mapStyles}
-                    initialCenter={{
-                        lat: this.state.initialCenter[0].position.lat,
-                        lng: this.state.initialCenter[0].position.lng
-                    }}
-                    >
-
-                     
+                google={this.props.google}
+                zoom={12}
+                style={mapStyles}
+                initialCenter={{
+                    lat: this.state.initialCenter[0].position.lat,
+                    lng: this.state.initialCenter[0].position.lng
+                }}
+                
+                > 
+                   
                     {this.state.markers.map((marker,index) => {
                         var url = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
                         if(!marker.isEvent)
@@ -279,7 +278,17 @@ class Maps extends Component {
                             }              
                         </div>
                     </InfoWindowEx>
+                    
                 </Map>
+                <div>
+                    <img
+                    src={legenda}
+                    style={{
+                        position:'absolute',
+                        left:'0px',
+                        bottom:'0px'
+                    }} />     
+                </div>
             </Table>
         );
     }
@@ -288,5 +297,5 @@ class Maps extends Component {
 export default GoogleApiWrapper({
     apiKey: 'AIzaSyCC3ZNGxhR49xDMOqDB7DT5nUi0qvcPfQo'
 })(Maps);
-//
+
 
