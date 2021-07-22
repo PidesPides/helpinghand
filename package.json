@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/pickers": "^3.3.10",
+    "@sweetalert/with-react": "^0.1.1",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -27,6 +28,7 @@
     "react-scripts": "^1.1.5",
     "reactjs-popup": "^2.0.4",
     "sweetalert": "^2.1.2",
+    "sweetalert2": "^11.0.19",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

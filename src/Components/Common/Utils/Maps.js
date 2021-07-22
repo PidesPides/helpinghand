@@ -283,6 +283,7 @@ class Maps extends Component {
                 <div>
                     <img
                     src={legenda}
+                    alt=""
                     style={{
                         position:'absolute',
                         left:'0px',

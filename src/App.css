@@ -41,8 +41,13 @@
 .div-body {
   min-height: 65vw;
   max-height: 0vw;
+  left:0;
+  bottom:0;
+  right:0;
 }
 
-/*
-*/
+.mood-btn{
+    background-color: white;
+    border: 0;
+}
 

@@ -27,6 +27,7 @@ import ProfileSettings from './Components/User/ProfileSettings.js';
 import ChangePassword from './Components/User/ChangePassword.js';
 import Maps from './Components/Common/Utils/Maps.js';
 import BackOffice from './Components/Common/Backoffice/BoHome.js';
+import Feed from './Components/Common/Utils/Feed.js';
 import AboutUs from './Components/Common/AboutUs/AboutUs.js';
 
 class App extends Component {
@@ -46,11 +47,10 @@ class App extends Component {
             <Route exact path={PathsLabel.ChangePassword} component={ChangePassword} />
             <Route exact path={PathsLabel.Maps} component={Maps} />
             <Route exact path={PathsLabel.BackOffice} component={BackOffice} />
+            <Route exact path={PathsLabel.Feed} component={Feed} />
             <Route exact path={PathsLabel.AboutUs} component={AboutUs} />
           </Switch>
         </div>
-
-        <Footer />
       </HashRouter>
     );
   }

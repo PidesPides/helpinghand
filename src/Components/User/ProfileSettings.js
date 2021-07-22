@@ -4,7 +4,8 @@ import swal from 'sweetalert';
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import ChangePassword from './ChangePassword.js';
 import UpdateInfo from './UpdateInfo.js';
-import { ServicePathsLabel} from '../Common/Utils/Paths.js';
+import UpdateProfile from './UpdateProfile.js';
+import { ServicePathsLabel,PathsLabel } from '../Common/Utils/Paths.js';
 import "./ProfileSetting.css";
 
 //por aqui o handleDelete
@@ -16,14 +17,104 @@ class ProfileSettings extends Component {
         super(props)
         this.state= {
             error: '',
-            isPublic:true
+            visibility:true
         }
         this.handleDelete = this.handleDelete.bind(this);
+        this.handleVisibility = this.handleVisibility.bind(this);
         this.changeVisibility = this.changeVisibility.bind(this);
     }
 
-    changeVisibility(e){
-        this.setState({isPublic: !this.state.isPublic})
+    componentDidMount(){
+
+        var urlProfileUser = ServicePathsLabel.ApiProd + ServicePathsLabel.User + "/" + sessionStorage.getItem('id') + PathsLabel.Profile +'?tokenId=' + sessionStorage.getItem('token');
+        var urlProfileInst = ServicePathsLabel.ApiProd + ServicePathsLabel.Institution + "/" + sessionStorage.getItem('id') + PathsLabel.Profile +'?tokenId=' + sessionStorage.getItem('token');
+        if (sessionStorage.getItem("role") === "INSTITUTION") {
+            const requestOptions = {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            }
+            fetch(urlProfileInst,requestOptions)
+            .then(response => response.json())
+            .then(data => this.setState({
+                visibility:data.visibility
+            })).catch(
+                //arrow functions<
+            );
+         }
+         else{
+              const requestOptions = {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            }
+            fetch(urlProfileUser,requestOptions)
+            .then(response => response.json())
+            .then(data => this.setState({
+                visibility:data.visibility
+            })).catch(
+                //arrow functions<
+            );
+
+         }
+    }
+
+    changeVisibility(){
+        this.setState({visibility: !this.state.visibility },() =>
+        this.handleVisibility());
+           
+    }
+
+    async handleVisibility(e){
+        var url = ServicePathsLabel.ApiProd;
+        //requestoptions
+        //json
+        //fetch
+        if (sessionStorage.getItem("role") === "INSTITUTION") {   
+            const visibilityString = this.state.visibility.toString();        
+            url += ServicePathsLabel.Institution + "/" + sessionStorage.getItem('id')
+            + PathsLabel.Visibility+ '?visibility='+ visibilityString +'&'+ 'tokenId=' + sessionStorage.getItem('token');
+
+            let json: Visibility = {
+                visibility: this.state.visibility
+            }
+
+            const requestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' }
+            }
+            console.log(this.state.visibility)
+            await fetch(url,requestOptions)
+            .then(data =>{
+                //this.setState({visibility: this.state.visibility});
+                swal("Atualização feita com sucesso.", " ","success");
+            }).catch(
+                    //arrow functions
+            );
+            
+
+        }else{
+            //MUDAR O LINK
+            const visibilityString = this.state.visibility.toString(); 
+            url += ServicePathsLabel.User + "/" + sessionStorage.getItem('id')
+            + PathsLabel.Visibility +'?visibility='+ visibilityString + '&' + 'tokenId=' + sessionStorage.getItem('token');
+            
+            let json: Visibility = {
+                visibility: this.state.visibility
+            }
+            console.log(this.state.visibility)
+            const requestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' }
+            }
+            
+            await fetch(url,requestOptions)
+            .then(data =>{
+                 //this.setState({visibility: this.state.visibility});
+                swal("Atualização feita com sucesso.", " ","success");
+            }).catch(
+                    //arrow functions
+            );
+        }
+       
     }
 
     handleDelete(e){
@@ -105,17 +196,20 @@ class ProfileSettings extends Component {
                         <Col sm={2} >
                             <Nav variant="pills" className="flex-column">
                                 <Nav.Item>
-                                    <Nav.Link eventKey="updateInfo">Info</Nav.Link>
+                                    <Nav.Link eventKey="updateInfo">Conta</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link eventKey="password">Mudar Pass</Nav.Link>
+                                    <Nav.Link eventKey="updateProfile">Perfil</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link eventKey="password">Mudar Palavra-Passe</Nav.Link>
                                 </Nav.Item>
                             </Nav>
                             <hr></hr>
                             <h5>Visibilidade</h5>
                             <div className="switch">
                                 <BootstrapSwitchButton
-                                    checked={this.state.isPublic}
+                                    checked={this.state.visibility}
                                     onlabel='Público'
                                     offlabel='Privado'
                                     onChange={this.changeVisibility}
@@ -133,10 +227,12 @@ class ProfileSettings extends Component {
                                 <Tab.Pane eventKey="updateInfo">
                                     <UpdateInfo />
                                 </Tab.Pane>
+                                <Tab.Pane eventKey="updateProfile">
+                                    <UpdateProfile />
+                                </Tab.Pane>
                                 <Tab.Pane eventKey="password">
                                     <ChangePassword />
                                 </Tab.Pane>
-                                
                             </Tab.Content>
                         
                         </Col>

@@ -2,7 +2,6 @@ import React,{ Component } from "react";
 import { Navbar, Nav } from 'react-bootstrap';
 import { PathsLabel } from "../Utils/Paths";
 import { MenuItem } from './MenuItem';
-import { BsFillGearFill } from "react-icons/bs";
 
 //tratar da roda dentada
 class Menu extends Component {
@@ -40,6 +39,17 @@ class Menu extends Component {
 
                         <MenuItem id="maps" href={PathsLabel.Maps} label="Mapa de Ajudas" isActive={true}
                             onClick={() => this.setActiveMenuItem("maps")} />
+                        {
+                            !isGbo &&
+                            <MenuItem id="feed" href={PathsLabel.Feed} label="Notificações"
+                            isActive={true} onClick={() => this.setActiveMenuItem("feed")} /> 
+
+                        }
+                        <MenuItem id="aboutus" href={PathsLabel.AboutUs} label="Sobre Nós"
+                            isActive={true} onClick={() => this.setActiveMenuItem("aboutus")} />
+
+                        <MenuItem id="report" href={PathsLabel.Report} label="Reportar"
+                            isActive={true} onClick={() => this.setActiveMenuItem("reportar")} />
                         { isGbo &&
                             <MenuItem id="backoffice" href={PathsLabel.BackOffice} label="BackOffice"
                             isActive={true} onClick={() => this.setActiveMenuItem("backoffice")} />    
