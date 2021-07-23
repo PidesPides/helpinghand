@@ -5,6 +5,7 @@ import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import ChangePassword from './ChangePassword.js';
 import UpdateInfo from './UpdateInfo.js';
 import UpdateProfile from './UpdateProfile.js';
+import UpdateEmail from './UpdateEmail.js';
 import { ServicePathsLabel,PathsLabel } from '../Common/Utils/Paths.js';
 import "./ProfileSetting.css";
 
@@ -202,6 +203,9 @@ class ProfileSettings extends Component {
                                     <Nav.Link eventKey="updateProfile">Perfil</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
+                                    <Nav.Link eventKey="updateEmail">E-mail</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
                                     <Nav.Link eventKey="password">Mudar Palavra-Passe</Nav.Link>
                                 </Nav.Item>
                             </Nav>
@@ -229,6 +233,9 @@ class ProfileSettings extends Component {
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="updateProfile">
                                     <UpdateProfile />
+                                </Tab.Pane>
+                                 <Tab.Pane eventKey="updateEmail">
+                                    <UpdateEmail/>
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="password">
                                     <ChangePassword />

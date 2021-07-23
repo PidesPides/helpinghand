@@ -24,14 +24,11 @@ class ChangePassword extends Component {
     }
 
     handleChangePass(e) {
-        //como ir buscar username para o link?
-        //tenho de fazer tambem com a diferença para institution e user? USAR O ROLE
         var url = ServicePathsLabel.ApiProd;
-        var matchPass = this.state.password === this.state.password2;
         //if (!this.state.password || !this.state.password2 || !matchPass)
             //meter alert e return
         
-        if (sessionStorage.getItem("role") === "INSTITUTION") { //verificar o role aqui!!!
+        if (sessionStorage.getItem("role") === "INSTITUTION") {
             url += ServicePathsLabel.Institution + "/" + sessionStorage.getItem('id') + PathsLabel.ChangePassword + '?tokenId=' + sessionStorage.getItem('token');
             console.log(e.target.parentNode.checkValidity())
             if (e.target.parentNode.checkValidity()) {
@@ -46,15 +43,16 @@ class ChangePassword extends Component {
                     body: JSON.stringify(json)
                 };                   
                 fetch(url, requestOptions)
-                .then(data => {
-                     //if (response.ok) {
+                .then(response => {
+                     if (response.ok) {
                         swal("Mudança de password feita com sucesso.", " ","success");
                         //return response.json();
-                    //}else{
-                        //alert
+                    }else{
+                        swal("As passwords estão diferentes. Tenta outra vez","","error");
                         //this.setState({error: response.statusText});
                         //throw new Error(response.statusText);
                     //}
+                    }
                 })
                 .catch(
                     //arrow functions
@@ -63,7 +61,6 @@ class ChangePassword extends Component {
             }
             else {
                 swal("Por favor preencha todos os campos.", "error");
-                console.log("deu erro institution")
             }
         } 
         if(sessionStorage.getItem("role") === "USER"){
@@ -77,16 +74,19 @@ class ChangePassword extends Component {
                 const requestOptions = {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json'},
-                    //'Authorization' : 'Bearer ' + sessionStorage.getItem('token')},
                     body: JSON.stringify(json)
                 };
                 fetch(url, requestOptions)
-                .then(data => {
-                    //console.log(response)
-                    //if(response.ok)
+                .then(response => {
+                     if (response.ok) {
                         swal("Mudança de password feita com sucesso.", " ","success");
                         //return response.json();
-                    //arrow functions
+                    }else{
+                        swal("As passwords estão diferentes. Tenta outra vez","","error");
+                        //this.setState({error: response.statusText});
+                        //throw new Error(response.statusText);
+                    //}
+                    }
                 })
                 .catch(
                     //arrow functions
@@ -94,7 +94,6 @@ class ChangePassword extends Component {
             }
             else {
                 swal("Por favor preencha todos os campos.", "error");
-                console.log("deu erro")
             }
 
         }

@@ -1,5 +1,5 @@
-import React,{Component} from 'react';
-import { Row, Col, Image,Button } from 'react-bootstrap';
+import React,{ Component } from 'react';
+import { Row, Col, Image, Button } from 'react-bootstrap';
 import { ServicePathsLabel,PathsLabel,Roles } from '../../Common/Utils/Paths.js';
 import swal from 'sweetalert';
 class Images extends Component{
@@ -11,8 +11,6 @@ class Images extends Component{
         }
         this.handleChangeAvatar = this.handleChangeAvatar.bind(this);
     }
-
-
 
     handleChangeAvatar(e){
         const avatarId = e.target.id;

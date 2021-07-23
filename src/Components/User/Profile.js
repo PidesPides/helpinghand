@@ -9,6 +9,8 @@ import swal from '@sweetalert/with-react';
 import Swal from 'sweetalert2';
 import Images from './Popups/Images.js';
 import Helpers from './Popups/Helpers.js';
+import Participants from './Popups/Participants.js';
+import Maps from '../Common/Utils/Maps.js';
 
 class Profile extends Component{
 
@@ -18,16 +20,21 @@ class Profile extends Component{
             username:'',
             name:'',
             bio:'',
-            visibility:false,
+            email:'',
+            dataCreation:'',
+            visibility:true,
             avatarUrl:'',
             initials:'',
             categories:[],
             phone:'',
             addr1:'',
             addr2:'',
+            rating:'',
+            reliability:'',
             city:'',
             zip:'',
-            cards:[]
+            cards:[],
+            mine:[]
         }
         this.onChange = this.onChange.bind(this);
         this.handleFinishHelp = this.handleFinishHelp.bind(this);
@@ -48,20 +55,30 @@ class Profile extends Component{
     //ir buscar os eventos/ajudas do user e profile
     async componentDidMount(){
         //urls
-        var urlInfo = ServicePathsLabel.ApiProd + ServicePathsLabel.User + "/" + sessionStorage.getItem('id')
-        + PathsLabel.UpdateInfo + '?tokenId=' + sessionStorage.getItem('token');
+        var urlAcc =  ServicePathsLabel.ApiProd + ServicePathsLabel.User + "/" + sessionStorage.getItem('id') + PathsLabel.Account + '?tokenId=' + sessionStorage.getItem('token');
+        var urlInfo = ServicePathsLabel.ApiProd + ServicePathsLabel.User + "/" + sessionStorage.getItem('id') + PathsLabel.UpdateInfo + '?tokenId=' + sessionStorage.getItem('token');
+        var urlStats = ServicePathsLabel.ApiProd + ServicePathsLabel.User + "/" + sessionStorage.getItem('id') + PathsLabel.Stats + "?tokenId=" + sessionStorage.getItem('token');
         var urlHelp = ServicePathsLabel.ApiProd  + ServicePathsLabel.User +"/" + sessionStorage.getItem('id') + "/" + PathsLabel.Help + '?tokenId=' + sessionStorage.getItem('token'); 
         var urlEvent = ServicePathsLabel.ApiProd  + ServicePathsLabel.User +"/" + sessionStorage.getItem('id') + "/events" + '?tokenId=' + sessionStorage.getItem('token');
+        var urlHelpSub =  ServicePathsLabel.ApiProd  + ServicePathsLabel.User +"/" + sessionStorage.getItem('id') + PathsLabel.Helping + '?tokenId=' + sessionStorage.getItem('token');
+        var urlEventSub =  ServicePathsLabel.ApiProd  + ServicePathsLabel.User +"/" + sessionStorage.getItem('id') + PathsLabel.Participating  + '?tokenId=' + sessionStorage.getItem('token');
         var urlProfileUser = ServicePathsLabel.ApiProd + ServicePathsLabel.User + "/" + sessionStorage.getItem('id') + PathsLabel.Profile +'?tokenId=' + sessionStorage.getItem('token');
         var urlProfileInst = ServicePathsLabel.ApiProd + ServicePathsLabel.Institution + "/" + sessionStorage.getItem('id') + PathsLabel.Profile +'?tokenId=' + sessionStorage.getItem('token');
         var cardsAux=[];
+        var mineAux=[];
         //fazer requestsOptions    
         const requestOptions = {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         }
         
+        console.log
+        console.log(urlProfileInst)
+        console.log(urlAcc)
+        console.log(urlProfileUser)
+        console.log(urlEventSub)
         //fazer fetch
+        
         await fetch(urlInfo,requestOptions)
         .then(response => response.json())
         .then(data => this.setState({
@@ -73,20 +90,42 @@ class Profile extends Component{
         })).catch(
             //arrow functions
         );
+    
+        await fetch(urlAcc,requestOptions)
+        .then(response => response.json())
+        .then(data => this.setState({
+            email: data.email,
+            id: data.id,
+            dataCreation: dateFormat(data.creation,"dd/mm/yyyy"),
+            status: data.status,
+            visibility: data.visibility
+        })).catch(
+            //arrow functions
+        );
 
-        if(sessionStorage.getItem('role') === "USER"){
+         if(sessionStorage.getItem('role') !== "INSTITUTION"){
             await fetch(urlProfileUser,requestOptions)
             .then(response => response.json())
             .then(data => this.setState({
                 name: data.name,
                 bio: data.bio,
-                visibility:data.visibility,
-                avatarUrl:data.avatar
+                visibility: data.visibility,
+                avatarUrl: data.avatar
             })).catch(
                 //arrow functions<
             );
+
+            await fetch(urlStats,requestOptions)
+            .then(response => response.json())
+            .then(data => this.setState({
+                rating: data.rating,
+                reliability: data.reliability
+            })).catch(
+                //arrow functions<
+            );
+            this.multReliab();
         }
-        
+
         //receber variaveis extra
         if(sessionStorage.getItem('role') === "INSTITUTION"){
             await fetch(urlProfileInst,requestOptions)
@@ -94,14 +133,15 @@ class Profile extends Component{
             .then(data => this.setState({
                 name: data.name,
                 bio: data.bio,
-                visibility:data.visibility,
-                avatarUrl:data.avatar,
-                initials:data.initials,
-                categories:data.categories
+                visibility: data.visibility,
+                avatarUrl: data.avatar,
+                initials: data.initials,
+                categories: data.categories
             })).catch(
                 //arrow functions<
             );
         }
+       
         
         await fetch(urlHelp,requestOptions)
             .then(response => response.json())
@@ -113,11 +153,37 @@ class Profile extends Component{
                         creator:obj.creator,
                         description:obj.description,
                         name:obj.name,
+                       location: {
+                            lat: obj.location[0],
+                            lng: obj.location[1]
+                        },
                         time:obj.time,
                         isEvent: false,
                         id:obj.id
                     }
                     cardsAux.push(card);
+                }
+            });
+
+        await fetch(urlHelpSub,requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                for(var i = 0; i < data.length; i++) {
+                    var obj = data[i];
+                    //addCards por a localizacao?
+                    var card = {
+                        creator:obj.creator,
+                        description:obj.description,
+                        name:obj.name,
+                       location: {
+                            lat: obj.location[0],
+                            lng: obj.location[1]
+                        },
+                        time:obj.time,
+                        isEvent: false,
+                        id:obj.id
+                    }
+                    mineAux.push(card);
                 }
             });
 
@@ -131,6 +197,10 @@ class Profile extends Component{
                         creator:obj.creator,
                         description:obj.description,
                         name:obj.name,
+                        location: {
+                            lat: obj.location[0],
+                            lng: obj.location[1]
+                        },
                         start:obj.start,
                         end:obj.end,
                         isEvent: true,
@@ -139,47 +209,63 @@ class Profile extends Component{
                     cardsAux.push(card);
                 }   
             });
+
+            await fetch(urlEventSub,requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                for(var i = 0; i < data.length; i++) {
+                var obj = data[i];
+                //addCard e usar start e end OK - e por location?
+                var card = {
+                        creator:obj.creator,
+                        description:obj.description,
+                        name:obj.name,
+                        location: {
+                            lat: obj.location[0],
+                            lng: obj.location[1]
+                        },
+                        start:obj.start,
+                        end:obj.end,
+                        isEvent: true,
+                        id:obj.id
+                    }
+                    mineAux.push(card);
+                }   
+            });
         //processo igual ao mapas para guardar numa lista
-        this.setState({cards:cardsAux});
+        this.setState({ cards:cardsAux });
+        this.setState({ mine:mineAux });
     } 
 
     handleFinishEvent(e){
         //url
         const cardId = e.target.id;
-
         var url=ServicePathsLabel.ApiProd + PathsLabel.Event + "/" + cardId + PathsLabel.End + "?tokenId=" + sessionStorage.getItem('token');
-        
         //requestoptions
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' }
         }
-
         //fetch
         fetch(url,requestOptions) 
         .then(response => {
             if (response.ok) {
-                return response.json();
-
+                swal("O evento foi concluído com sucesso","","success");
             }else{
                 this.setState({error: response.statusText});
                 throw new Error(response.statusText);
             }
         })
-        
     }
 
     handleCancelEvent(e){
-        console.log(e.target)
-        const cardId = e.target.id.toString();
-        var url=ServicePathsLabel.ApiProd + PathsLabel.Event + "/" + cardId + '?tokenId=' + sessionStorage.getItem('token'); ;
+        const cardId = e.target.id;
+        var url=ServicePathsLabel.ApiProd + PathsLabel.Event + "/" + cardId + '?tokenId=' + sessionStorage.getItem('token');
         //requestoptions
-        
         const requestOptions = {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json'}
-            
-            };                     
+        }                     
         swal({
             title: "Tem a certeza que quer cancelar o evento?",
             icon: "warning",
@@ -198,10 +284,45 @@ class Profile extends Component{
                     window.location.reload();
                 })
                 .catch(error =>{
-                    //swal("Houve um problema a apagar a sua conta.", " ", "error");
+
                 })    
             } 
         });
+    }
+
+    handleLeaveEvent(e){
+        const cardId = e.target.id;
+        var url = ServicePathsLabel.ApiProd + PathsLabel.Event + "/" + cardId + PathsLabel.Leave +'?tokenId=' + sessionStorage.getItem('token');
+        //rest/event/cardId/leave/tokenId
+        console.log(url)
+        
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json'}
+        }                     
+        swal({
+            title: "Tem a certeza que quer deixar o evento?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                swal("Deixaste o evento com sucesso", {
+                icon: "success",
+                });
+                fetch(url,requestOptions)
+                .then(response => {
+                    if(!response.ok)
+                        throw new Error(response.statusText);
+                    window.location.reload();
+                })
+                .catch(error =>{
+
+                })    
+            } 
+        });
+        
     }
 
     handleFinishHelp(e){
@@ -210,7 +331,6 @@ class Profile extends Component{
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' }
         }
-
         Swal.fire({
             title: 'Como avalias a ajuda que recebeste?',
             icon: 'question',
@@ -229,7 +349,7 @@ class Profile extends Component{
                 fetch(url,requestOptions)
                 .then(response => {
                     if (response.ok) {
-                        swal("Ajuda concluida com sucesso","","success");
+                        swal("Ajuda concluída com sucesso","","success");
                 //mais alguma coisa'
                     }else{
                         this.setState({error: response.statusText});
@@ -266,18 +386,54 @@ class Profile extends Component{
                         throw new Error(response.statusText);
                 })
                 .catch(error =>{
-                    swal("Houve um problema a apagar a sua conta.", " ", "error");
                 })    
             } 
         });
     }
 
-    handleShowOnMap(){
-        //guardar localizaçao deste ponto na sessionStorage
-        //mudar para pagina do mapa
-        //fazer este ponto novo initialCenter
-        //centrar
+    handleLeaveHelp(e){
+        const cardId = e.target.id;
+        var url = ServicePathsLabel.ApiProd + PathsLabel.Help + "/" + cardId + PathsLabel.Leave +'?tokenId=' + sessionStorage.getItem('token');
+        console.log(url)
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json'}
+        }                     
+        swal({
+            title: "Tem a certeza que quer deixar a ajuda?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                swal("Deixaste a ajuda com sucesso", {
+                icon: "success",
+                });
+                fetch(url,requestOptions)
+                .then(response => {
+                    if(!response.ok)
+                        throw new Error(response.statusText);
+                    window.location.reload();
+                })
+                .catch(error =>{
 
+                })    
+            } 
+        });
+    }
+
+    handleShowOnMap(e,value1,value2){
+        var locationLat = value1;
+        var locationLng = value2;
+        sessionStorage.setItem('lat',locationLat);
+        sessionStorage.setItem('lng',locationLng);
+        //linkar para o mapa
+    }
+
+    multReliab(){
+        var finalR= parseFloat((this.state.reliability*100)).toFixed(2) + "%";
+        this.setState({reliability:finalR});
     }
     //ver layout no paint
     //tabela com 2 rows
@@ -286,6 +442,9 @@ class Profile extends Component{
     //fazer form com readonly
     //por rating no profile!!!
     render(){
+        var isUser = false;
+        if(sessionStorage.getItem("role") === "USER")
+            isUser = true;
         return(
             <Form>
                 <Container>
@@ -317,14 +476,11 @@ class Profile extends Component{
                                 </div> 
                             </Row>
                             <Row className="p-0">
-                                
                             </Row>
-                            
-
                         </Col>
                         <Col lg={8}>{/*/main col2*/}
                             <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3">
-                                <Tab eventKey="profile" title="Informação de perfil">
+                                <Tab eventKey="profile" title="Perfil">
                                     <Row>
                                         <Col>
                                             <Form.Group controlId="formName">
@@ -355,11 +511,25 @@ class Profile extends Component{
                                             </Form.Group>
                                         </Col>
                                     </Row> 
+                                    <Row>
+                                        <Col>
+                                            <Form.Group controlId="formRating">
+                                                <Form.Label ><u>Classificação</u></Form.Label>
+                                                <Form.Control readOnly defaultValue={this.state.rating} />
+                                            </Form.Group>
+                                        </Col>
+                                        <Col>
+                                            <Form.Group controlId="formReliability">
+                                                <Form.Label ><u>Fiabilidade</u></Form.Label>
+                                                <Form.Control readOnly defaultValue={this.state.reliability} />
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
                                     {/**
                                     nova row com rating e fiabilidade
                                      */}
                                 </Tab>
-                                <Tab eventKey="info" title="Informação de conta">
+                                <Tab eventKey="info" title="Info de conta">
                                     <Row>
                                         <Col>
                                             <Form.Group controlId="formUsername">
@@ -373,7 +543,22 @@ class Profile extends Component{
                                                 <Form.Control readOnly defaultValue={this.state.phone} />
                                             </Form.Group>
                                         </Col>
-                                    </Row> 
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            <Form.Group controlId="formEmail">
+                                                <Form.Label ><u>Email</u></Form.Label>
+                                                <Form.Control readOnly defaultValue={this.state.email} />
+                                            </Form.Group>
+                                        </Col>
+                                        <Col>
+                                            <Form.Group controlId="formDataCreation">
+                                                <Form.Label ><u>Data de Criação</u></Form.Label>
+                                                <Form.Control readOnly defaultValue={this.state.dataCreation} />
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+
                                     <Row>
                                         <Col>
                                             <Form.Group controlId="formCity">
@@ -431,8 +616,10 @@ class Profile extends Component{
                                                                     <p><u>Id:</u> {card.id}</p>
                                                                     <Button id={card.id} variant="outline-success" size="sm" onClick={this.handleFinishHelp}>Concluir Ajuda</Button>
                                                                     <Button id={card.id} variant="outline-danger" size="sm" onClick={this.handleCancelHelp}>Cancelar Ajuda</Button>
-                                                                    <Button variant="outline-info" size="sm" onClick={this.handleShowOnMap}>Mostrar no Mapa</Button> 
-
+                                                                    <Link to="/maps">
+                                                                        <Button value={card.location.lat, card.location.lng} variant="outline-info" size="sm"
+                                                                        onClick={(e) => this.handleShowOnMap(e,card.location.lat, card.location.lng)}>Mostrar no Mapa</Button> 
+                                                                    </Link>          
                                                                 </div>
                                                                 {/**botao de concluir,cancelar ajuda/evento 
                                                                     ver o nº de pessoas que querem ajudar
@@ -478,12 +665,24 @@ class Profile extends Component{
                                                                     <p><u>Id:</u> {card.id}</p>
                                                                     <Button id={card.id} variant="outline-success" size="sm" onClick={this.handleFinishEvent}>Concluir Evento</Button>
                                                                     <Button id={card.id} variant="outline-danger" size="sm" onClick={this.handleCancelEvent}>Cancelar Evento</Button>
-                                                                    <Button variant="outline-info" size="sm" onClick={this.handleShowOnMap}>Mostrar no Mapa</Button> 
+                                                                   <Link to="/maps">
+                                                                        <Button value={card.location.lat,card.location.lng} variant="outline-info" size="sm"
+                                                                        onClick={(e) => this.handleShowOnMap(e,card.location.lat,card.location.lng)}>Mostrar no Mapa</Button> 
+                                                                    </Link>   
                                                                 </div>
                                                                 
                                                                 {/**botao de concluir,cancelar ajuda/evento ver o nº
                                                                 de pessoas que estao inscritas no evento
                                                                 botao de mostrar no mapa?*/}
+                                                                </Popup>
+                                                                <Popup trigger={
+                                                                    <Card.Link href="#profile">Ver Participantes</Card.Link>
+                                                                    }
+                                                                    position="right top"
+                                                                    modal
+                                                                    nested
+                                                                >
+                                                                <Participants cardId={card.id} />
                                                                 </Popup>
                                                             </Card.Text>
                                                         </Card.Body>
@@ -494,6 +693,96 @@ class Profile extends Component{
                                             })}
                                     </Row>
                                 </Tab>
+                                {
+                                    isUser &&
+
+                                    <Tab eventKey="getsMine " title="Ajudas/Eventos inscritos">
+                                        <Row xs={1} md={2}>
+                                            {this.state.mine.map((me,index) => {
+                                                if(!me.isEvent){  
+                                                    return( 
+                                                    <Col>
+                                                    <Card border="danger" style={{ width: '21rem' , height:'10rem' , margin:'1rem'}}>
+                                                        <Card.Body>
+                                                        <Card.Title><b>{me.name}</b></Card.Title>
+                                                            <Card.Text fontsize="1.2rem">
+                                                                <p>Descrição:{me.description}</p>
+                                                                <Popup trigger={
+                                                                    <Card.Link href="#profile">Mais info</Card.Link>
+                                                                    }
+                                                                    position="right top"
+                                                                    modal
+                                                                    nested
+                                                                >
+                                                                {/**falta por resto e botoes com handles! */}
+                                                                <div>
+                                                                    <p><u>Descrição:</u> {me.description}</p>
+                                                                    <p><u>Data:</u> {dateFormat(me.time,"default")}</p>
+                                                                    <p><u>Id:</u> {me.id}</p>
+                                                                    <Button id={me.id} variant="outline-danger" size="sm" onClick={this.handleLeaveHelp}>Deixar Ajuda</Button>
+                                                                    <Link to="/maps">
+                                                                        <Button value={me.location.lat, me.location.lng} variant="outline-info" size="sm"
+                                                                        onClick={(e) => this.handleShowOnMap(e,me.location.lat,me.location.lng)}>Mostrar no Mapa</Button> 
+                                                                    </Link>          
+                                                                </div>
+                                                                </Popup>
+                                                            </Card.Text>
+                                                        </Card.Body>
+                                                        </Card>
+                                                    </Col>
+                                                    );
+                                                }
+                                                else{
+                                                    return(
+                                                        <Col>
+                                                        <Card border="warning" style={{ width: '21rem' , height:'10rem' , margin:'1rem'}}>
+                                                        <Card.Body>
+                                                        <Card.Title><b>{me.name}</b></Card.Title>
+                                                            <Card.Text fontsize="1.2rem">
+                                                                <p>Descrição: {me.description}</p>
+                                                                <Popup trigger={
+                                                                    <Card.Link href="#profile">Mais info</Card.Link>
+                                                                    } 
+                                                                    position="right top"
+                                                                    modal
+                                                                    nested
+                                                                >
+                                                                {/**falta por resto e botoes com handles! */}
+                                                                <div>
+                                                                    <p><u>Descrição:</u> {me.description}</p>
+                                                                    <p><u>Data de Inicio:</u> {dateFormat(me.start,"default")}</p>
+                                                                    <p><u>Data de Fim:</u> {dateFormat(me.end,"default")}</p>
+                                                                    <p><u>Id:</u> {me.id}</p>
+                                                                    <Button id={me.id} variant="outline-danger" size="sm" onClick={this.handleLeaveEvent}>Sair de Evento</Button>
+                                                                    <Link to="/maps">
+                                                                        <Button value={me.location.lat,me.location.lng} variant="outline-info" size="sm"
+                                                                        onClick={(e) => this.handleShowOnMap(e,me.location.lat,me.location.lng)}>Mostrar no Mapa</Button> 
+                                                                    </Link>   
+                                                                </div>
+                                                                
+                                                                {/**botao de concluir,cancelar ajuda/evento ver o nº
+                                                                de pessoas que estao inscritas no evento
+                                                                botao de mostrar no mapa?*/}
+                                                                </Popup>
+                                                                <Popup trigger={
+                                                                    <Card.Link href="#profile">Ver Participantes</Card.Link>
+                                                                    }
+                                                                    position="right top"
+                                                                    modal
+                                                                    nested
+                                                                >
+                                                                <Participants cardId={me.id} />
+                                                                </Popup>
+                                                            </Card.Text>
+                                                        </Card.Body>
+                                                        </Card>
+                                                        </Col>
+                                                    )
+                                                } 
+                                            })}
+                                    </Row>
+                                    </Tab>
+                                }
                             </Tabs>
                         </Col>
                     </Row>
@@ -501,6 +790,5 @@ class Profile extends Component{
             </Form>   
         )
     }
-
 }
 export default Profile;

@@ -93,7 +93,7 @@ class Helpers extends Component{
                             </Row>                    
                         )   
                     })}
-                </Row>
+               </Row>
             </Container>
         )
     }

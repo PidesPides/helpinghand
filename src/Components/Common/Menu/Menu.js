@@ -78,6 +78,8 @@ class Menu extends Component {
 
                         <MenuItem id="login" href={PathsLabel.Login} label="Iniciar Sessão" isActive={false}
                             onClick={() => this.setActiveMenuItem("login")} />
+                        <MenuItem id="aboutus" href={PathsLabel.AboutUs} label="Sobre Nós"
+                            isActive={true} onClick={() => this.setActiveMenuItem("aboutus")} />
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

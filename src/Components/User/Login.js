@@ -43,8 +43,7 @@ class Login extends Component {
                         return response.json();
 
                     }else{
-                        this.setState({error: response.statusText});
-                        throw new Error(response.statusText);
+                        swal("Password ou username errado. Tenta outra vez","Já verificaste o teu email?","error");
                     }
                 })
                 .then(json => {

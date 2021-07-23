@@ -26,8 +26,6 @@ class Maps extends Component {
             activeMarker: {},
             load: false,
             initialCenter: [{
-                title: "You are here",
-                name: "Current Position",
                 position: {
                     //mudar isto
                     lat: 38.770116,
@@ -41,21 +39,26 @@ class Maps extends Component {
         }
         this.handleOfferHelp = this.handleOfferHelp.bind(this);
         this.handleJoinEvent = this.handleJoinEvent.bind(this);
-        this.showPosition = this.showPosition.bind(this);
+        this.changeCenter = this.changeCenter.bind(this);
     }
-    
+    async componentWillMount(){
+        if(sessionStorage.getItem('lat') !== null && sessionStorage.getItem('lng') !== null){
+            await this.changeCenter();
+        }
+    }
     async componentDidMount() {
         var urlHelp=ServicePathsLabel.ApiProd + PathsLabel.Help + '?tokenId=' + sessionStorage.getItem('token');
         var urlEvent=ServicePathsLabel.ApiProd + PathsLabel.Event + '?tokenId=' + sessionStorage.getItem('token');
         var markersAux = [];
         const requestOptions = {
-                        method: 'GET',
-                        headers: { 'Content-Type': 'application/json' }
-                    }
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        }
         //chamar as apis do getEvents e getHelps
         //url do getHelp: url + ServicePathLabels.Help + token
         //fazer pedido de get
         //MUDAR
+       
         await fetch(urlHelp,requestOptions)
             .then(response => response.json())
             .then(data => {
@@ -160,22 +163,21 @@ class Maps extends Component {
         showingInfoWindow: true
     });
 
-    showPosition(position) {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
+    changeCenter(e) {
+        const lat = parseFloat(sessionStorage.getItem('lat'));
+        const lng = parseFloat(sessionStorage.getItem('lng'));
         this.setState({
-            
             initialCenter: [
                 {
-                    title: "You are here",
-                    name: "Current Position",
                     position: { lat, lng }
                 }
             ]
-            
         });
-        this.setState({ load: true });
+        sessionStorage.removeItem('lat');
+        sessionStorage.removeItem('lng');
     }
+
+   
 
     render() {
         console.log(this.state.markers)

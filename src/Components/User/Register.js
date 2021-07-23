@@ -84,11 +84,10 @@ class Register extends Component {
                     });
                 })
                 .catch(
-                    //arrow functions
+
                 );
             }
             else {
-               //alert("Por favor preencha todos os campos.")
                 swal("Por favor preencha todos os campos.", " ", "warning");
             }
 

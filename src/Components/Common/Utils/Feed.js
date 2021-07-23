@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Container, Card, Row, Col } from 'react-bootstrap';
+import { Container, Card, Row, Col } from 'react-bootstrap';
 import { ServicePathsLabel, PathsLabel, Roles } from './Paths.js';
 
 class Feed extends Component{
