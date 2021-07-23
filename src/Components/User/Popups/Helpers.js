@@ -28,10 +28,11 @@ class Helpers extends Component{
                 for(var i = 0; i < data.length; i++) {
                     var obj = data[i];
                     var helper = {
-                        id:obj.id,
-                        email:obj.email,
-                        rating:obj.rating,
-                        reliability:obj.reliability
+                        id: obj.id,
+                        email: obj.email,
+                        rating: obj.rating,
+                        reliability: parseFloat((obj.reliability*100)).toFixed(2) + "%"
+                        
                     }
                     helpersAux.push(helper);
                 }

@@ -212,7 +212,7 @@ class Maps extends Component {
             
                 <Map
                 google={this.props.google}
-                zoom={12}
+                zoom={14}
                 style={mapStyles}
                 initialCenter={{
                     lat: this.state.initialCenter[0].position.lat,
