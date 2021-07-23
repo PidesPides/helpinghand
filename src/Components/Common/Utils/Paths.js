@@ -27,7 +27,8 @@ const PathsLabel = {
     offerHelp: "/offer",
     joinEvent: "/join",
     BackOffice: "/backoffice",
-    AboutUs: "/aboutus"
+    AboutUs: "/aboutus",
+    
 }
 
 const ServicePathsLabel = {
@@ -42,7 +43,7 @@ const ServicePathsLabel = {
 const Roles = {
     User: "user/",
     Institution: "institution/",
-    Gbo:"gbo/",
+    Gbo:"restricted/",
     Admin: "admin/"
     
 }

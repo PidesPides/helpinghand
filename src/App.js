@@ -29,6 +29,7 @@ import Maps from './Components/Common/Utils/Maps.js';
 import BackOffice from './Components/Common/Backoffice/BoHome.js';
 import Feed from './Components/Common/Utils/Feed.js';
 import AboutUs from './Components/Common/AboutUs/AboutUs.js';
+import Report from './Components/Common/Utils/Report.js';
 
 class App extends Component {
   render() {
@@ -49,6 +50,7 @@ class App extends Component {
             <Route exact path={PathsLabel.BackOffice} component={BackOffice} />
             <Route exact path={PathsLabel.Feed} component={Feed} />
             <Route exact path={PathsLabel.AboutUs} component={AboutUs} />
+            <Route exact path={PathsLabel.Report} component={Report} />
           </Switch>
         </div>
       </HashRouter>
