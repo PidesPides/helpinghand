@@ -52,7 +52,6 @@ class CreateEvent extends Component{
     }
 
     handleEndDate(date){
-        console.log(date)
          try {
        var formatD =dateFormat(date,"isoUtcDateTime"); 
             this.setState({endDate: formatD}, () => 
@@ -71,7 +70,6 @@ class CreateEvent extends Component{
                 const { lat, lng } = response.results[0].geometry.location;
                 locationTmp.push(lat);
                 locationTmp.push(lng);
-                console.log(locationTmp)
                 this.setState({locationLL: locationTmp});
                 var url = ServicePathsLabel.ApiProd + PathsLabel.Event + '?tokenId=' + sessionStorage.getItem('token');
                 let json: Event = {

@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, Fragment} from "react";
 import Table from 'react-bootstrap/Table'
 import Operations from './Components/Operations.js';
 import ListUsers from './Components/ListUsers.js';
@@ -10,6 +10,7 @@ import './BoHome.css';
 class BoHome extends Component {
 
   render() {
+    var role = sessionStorage.getItem("role");
     return (
       <Table striped bordered hover>
         <tbody>
@@ -19,29 +20,31 @@ class BoHome extends Component {
               <br />
               {<Operations />}
             </td>
-
           </tr>
 
-          <tr>
-            <td>
-                {<ListUsers className = "item" />}
-            </td>
-            <td>
-                {<ListInstitutions className = "item" />}
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-                {<ListReports />}
-            </td>
-
-            <td>
-              {<UserStats/>}
-            </td>
+          {role === "GBO" &&
+            <Fragment>
             
-          </tr>
-          
+              <tr>
+                <td>
+                    {<ListUsers className = "item" />}
+                </td>
+                <td>
+                    {<ListInstitutions className = "item" />}
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                    {<ListReports />}
+                </td>
+
+                <td>
+                  {<UserStats/>}
+                </td>
+              </tr>
+            </Fragment>
+          }
         </tbody>
       </Table>
 

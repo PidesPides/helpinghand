@@ -41,8 +41,6 @@ class UserStats extends Component {
     var url =  ServicePathsLabel.ApiProd + Roles.Gbo + "dailyUsers" + '?tokenId=' + sessionStorage.getItem('token')
       + "&startDate=" + this.state.start + "&endDate=" + this.state.end;
 
-    console.log(url);
-
     const requestOptions = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json'}
@@ -59,8 +57,6 @@ class UserStats extends Component {
         console.error(error)
         swal("Ocorreu um erro, tente novamente.");
       });
-
-      console.log(this.state.list)
       
   }
 

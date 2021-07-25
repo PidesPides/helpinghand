@@ -16,7 +16,6 @@ class Participants extends Component{
         + "/" + this.props.cardId + PathsLabel.ListPartic 
         +'?tokenId=' + sessionStorage.getItem('token');
 
-        console.log(urlParticipants)
         const requestOptions={
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }  

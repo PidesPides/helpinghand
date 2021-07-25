@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { ServicePathsLabel,PathsLabel } from '../Common/Utils/Paths.js';
 import dateFormat from 'dateformat';
 import Popup from 'reactjs-popup';
-import swal from '@sweetalert/with-react';
+import swal from 'sweetalert';
 import Swal from 'sweetalert2';
 import Images from './Popups/Images.js';
 import Helpers from './Popups/Helpers.js';
@@ -72,11 +72,6 @@ class Profile extends Component{
             headers: { 'Content-Type': 'application/json' }
         }
         
-        console.log
-        console.log(urlProfileInst)
-        console.log(urlAcc)
-        console.log(urlProfileUser)
-        console.log(urlEventSub)
         //fazer fetch
         
         await fetch(urlInfo,requestOptions)
@@ -124,6 +119,52 @@ class Profile extends Component{
                 //arrow functions<
             );
             this.multReliab();
+
+            await fetch(urlHelpSub,requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                for(var i = 0; i < data.length; i++) {
+                    var obj = data[i];
+                    //addCards por a localizacao?
+                    var card = {
+                        creator:obj.creator,
+                        description:obj.description,
+                        name:obj.name,
+                       location: {
+                            lat: obj.location[0],
+                            lng: obj.location[1]
+                        },
+                        time:obj.time,
+                        isEvent: false,
+                        id:obj.id
+                    }
+                    mineAux.push(card);
+                }
+            });
+
+             await fetch(urlEventSub,requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                for(var i = 0; i < data.length; i++) {
+                var obj = data[i];
+                //addCard e usar start e end OK - e por location?
+                var card = {
+                        creator:obj.creator,
+                        description:obj.description,
+                        name:obj.name,
+                        location: {
+                            lat: obj.location[0],
+                            lng: obj.location[1]
+                        },
+                        start:obj.start,
+                        end:obj.end,
+                        isEvent: true,
+                        id:obj.id
+                    }
+                    mineAux.push(card);
+                }   
+            });
+
         }
 
         //receber variaveis extra
@@ -165,28 +206,7 @@ class Profile extends Component{
                 }
             });
 
-        await fetch(urlHelpSub,requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                for(var i = 0; i < data.length; i++) {
-                    var obj = data[i];
-                    //addCards por a localizacao?
-                    var card = {
-                        creator:obj.creator,
-                        description:obj.description,
-                        name:obj.name,
-                       location: {
-                            lat: obj.location[0],
-                            lng: obj.location[1]
-                        },
-                        time:obj.time,
-                        isEvent: false,
-                        id:obj.id
-                    }
-                    mineAux.push(card);
-                }
-            });
-
+        
         await fetch(urlEvent,requestOptions)
             .then(response => response.json())
             .then(data => {
@@ -210,28 +230,7 @@ class Profile extends Component{
                 }   
             });
 
-            await fetch(urlEventSub,requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                for(var i = 0; i < data.length; i++) {
-                var obj = data[i];
-                //addCard e usar start e end OK - e por location?
-                var card = {
-                        creator:obj.creator,
-                        description:obj.description,
-                        name:obj.name,
-                        location: {
-                            lat: obj.location[0],
-                            lng: obj.location[1]
-                        },
-                        start:obj.start,
-                        end:obj.end,
-                        isEvent: true,
-                        id:obj.id
-                    }
-                    mineAux.push(card);
-                }   
-            });
+           
         //processo igual ao mapas para guardar numa lista
         this.setState({ cards:cardsAux });
         this.setState({ mine:mineAux });
@@ -294,7 +293,6 @@ class Profile extends Component{
         const cardId = e.target.id;
         var url = ServicePathsLabel.ApiProd + PathsLabel.Event + "/" + cardId + PathsLabel.Leave +'?tokenId=' + sessionStorage.getItem('token');
         //rest/event/cardId/leave/tokenId
-        console.log(url)
         
         const requestOptions = {
             method: 'DELETE',
@@ -394,7 +392,6 @@ class Profile extends Component{
     handleLeaveHelp(e){
         const cardId = e.target.id;
         var url = ServicePathsLabel.ApiProd + PathsLabel.Help + "/" + cardId + PathsLabel.Leave +'?tokenId=' + sessionStorage.getItem('token');
-        console.log(url)
         const requestOptions = {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json'}
@@ -443,8 +440,9 @@ class Profile extends Component{
     //por rating no profile!!!
     render(){
         var isUser = false;
-        if(sessionStorage.getItem("role") === "USER")
+        if(sessionStorage.getItem("role") === "USER"){
             isUser = true;
+        }        
         return(
             <Form>
                 <Container>
@@ -511,23 +509,25 @@ class Profile extends Component{
                                             </Form.Group>
                                         </Col>
                                     </Row> 
-                                    <Row>
-                                        <Col>
-                                            <Form.Group controlId="formRating">
-                                                <Form.Label ><u>Classificação</u></Form.Label>
-                                                <Form.Control readOnly defaultValue={this.state.rating} />
-                                            </Form.Group>
-                                        </Col>
-                                        <Col>
-                                            <Form.Group controlId="formReliability">
-                                                <Form.Label ><u>Fiabilidade</u></Form.Label>
-                                                <Form.Control readOnly defaultValue={this.state.reliability} />
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
-                                    {/**
-                                    nova row com rating e fiabilidade
-                                     */}
+                                    {
+                                        isUser &&
+
+                                        <Row>
+                                            <Col>
+                                                <Form.Group controlId="formRating">
+                                                    <Form.Label ><u>Classificação</u></Form.Label>
+                                                    <Form.Control readOnly defaultValue={this.state.rating} />
+                                                </Form.Group>
+                                            </Col>
+                                            <Col>
+                                                <Form.Group controlId="formReliability">
+                                                    <Form.Label ><u>Fiabilidade</u></Form.Label>
+                                                    <Form.Control readOnly defaultValue={this.state.reliability} />
+                                                </Form.Group>
+                                            </Col>
+                                        </Row>
+
+                                    }
                                 </Tab>
                                 <Tab eventKey="info" title="Info de conta">
                                     <Row>
@@ -590,8 +590,6 @@ class Profile extends Component{
                                     </Row>
                                 </Tab>
                                 <Tab eventKey="gets" title="Ajudas/Eventos criados">
-                                    {/**fazer cards aqui 
-                                    usar nova componente*/}
                                     <Row xs={1} md={2}>
                                             {this.state.cards.map((card,index) => {
                                                 if(!card.isEvent){  
@@ -621,11 +619,6 @@ class Profile extends Component{
                                                                         onClick={(e) => this.handleShowOnMap(e,card.location.lat, card.location.lng)}>Mostrar no Mapa</Button> 
                                                                     </Link>          
                                                                 </div>
-                                                                {/**botao de concluir,cancelar ajuda/evento 
-                                                                    ver o nº de pessoas que querem ajudar
-                                                                    cena de dar o rating
-                                                                    botao de mostrar no mapa?
-                                                                */}
                                                                 </Popup>
                                                                 <Popup trigger={
                                                                     <Card.Link href="#profile">Escolher ajudante</Card.Link>
@@ -657,7 +650,6 @@ class Profile extends Component{
                                                                     modal
                                                                     nested
                                                                 >
-                                                                {/**falta por resto e botoes com handles! */}
                                                                 <div>
                                                                     <p><u>Descrição:</u> {card.description}</p>
                                                                     <p><u>Data de Inicio:</u> {dateFormat(card.start,"default")}</p>
@@ -670,10 +662,6 @@ class Profile extends Component{
                                                                         onClick={(e) => this.handleShowOnMap(e,card.location.lat,card.location.lng)}>Mostrar no Mapa</Button> 
                                                                     </Link>   
                                                                 </div>
-                                                                
-                                                                {/**botao de concluir,cancelar ajuda/evento ver o nº
-                                                                de pessoas que estao inscritas no evento
-                                                                botao de mostrar no mapa?*/}
                                                                 </Popup>
                                                                 <Popup trigger={
                                                                     <Card.Link href="#profile">Ver Participantes</Card.Link>

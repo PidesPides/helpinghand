@@ -15,8 +15,7 @@ class Images extends Component{
     handleChangeAvatar(e){
         const avatarId = e.target.id;
         var url = ServicePathsLabel.ApiProd + Roles.User + sessionStorage.getItem('id') 
-        + PathsLabel.Avatar + "?avatar=" + avatarId + "&tokenId=" + sessionStorage.getItem('token'); 
-        console.log(url)
+        + PathsLabel.Avatar + "?avatar=" + avatarId + "&tokenId=" + sessionStorage.getItem('token');
         
         const requestOptions = {
             method: 'PUT',

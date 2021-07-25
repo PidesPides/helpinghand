@@ -48,8 +48,6 @@ class ListUsers extends Component {
             headers: { 'Content-Type': 'application/json'}
         };
 
-        console.log(url);
-
         fetch(url, requestOptions)
             .then(res => res.json())
             .then(result => {

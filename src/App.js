@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import { PathsLabel } from './Components/Common/Utils/Paths';
+import { ServicePathsLabel,PathsLabel } from './Components/Common/Utils/Paths';
 
 
 
@@ -30,6 +30,7 @@ import BackOffice from './Components/Common/Backoffice/BoHome.js';
 import Feed from './Components/Common/Utils/Feed.js';
 import AboutUs from './Components/Common/AboutUs/AboutUs.js';
 import Report from './Components/Common/Utils/Report.js';
+import EmailVerification from './Components/Common/Utils/EmailVerification.js';
 
 class App extends Component {
   render() {
@@ -51,6 +52,7 @@ class App extends Component {
             <Route exact path={PathsLabel.Feed} component={Feed} />
             <Route exact path={PathsLabel.AboutUs} component={AboutUs} />
             <Route exact path={PathsLabel.Report} component={Report} />
+            <Route exact path={PathsLabel.EmailVerification} component={EmailVerification} />
           </Switch>
         </div>
       </HashRouter>

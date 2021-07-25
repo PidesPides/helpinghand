@@ -43,8 +43,7 @@ class Report extends Component {
               }
         })
         .catch(error => {
-            console.log(error)    
-            return;
+            console.log(error)
             }
         );
 

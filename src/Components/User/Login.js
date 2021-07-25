@@ -53,7 +53,6 @@ class Login extends Component {
                     sessionStorage.setItem('role',json.role)
                     window.location.hash = "/";
                     window.location.reload();
-                    console.log(json)
                 
                 })
                 .catch(error => {

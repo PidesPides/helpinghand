@@ -28,7 +28,8 @@ const PathsLabel = {
     joinEvent: "/join",
     BackOffice: "/backoffice",
     AboutUs: "/aboutus",
-    
+    Report:"/report",
+    EmailVerification:"/confirmation"
 }
 
 const ServicePathsLabel = {

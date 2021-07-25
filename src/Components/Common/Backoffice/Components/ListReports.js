@@ -92,13 +92,9 @@ class ListReports extends Component {
             + "?tokenId=" + sessionStorage.getItem('token')
             + "&reportId=" + id;
 
-        console.log(url);
-
         let json: ReportResponse = {
             message: this.state.message
         }
-
-        console.log(json);
 
         const requestOptions = {
             method: 'PUT',

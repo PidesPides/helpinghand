@@ -21,10 +21,11 @@ class Menu extends Component {
     }
 
     loggedInMenu() {
-        var isGbo = false;
+        var isGboOrSA = false;
         if(sessionStorage.getItem("role") === "GBO")
-            isGbo = true;
-
+            isGboOrSA = true;
+        if(sessionStorage.getItem("role") === "SYSADMIN")
+            isGboOrSA = true;
 
         return (
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -40,7 +41,7 @@ class Menu extends Component {
                         <MenuItem id="maps" href={PathsLabel.Maps} label="Mapa de Ajudas" isActive={true}
                             onClick={() => this.setActiveMenuItem("maps")} />
                         {
-                            !isGbo &&
+                            !isGboOrSA &&
                             <MenuItem id="feed" href={PathsLabel.Feed} label="Notificações"
                             isActive={true} onClick={() => this.setActiveMenuItem("feed")} /> 
 
@@ -50,7 +51,7 @@ class Menu extends Component {
 
                         <MenuItem id="report" href={PathsLabel.Report} label="Reportar"
                             isActive={true} onClick={() => this.setActiveMenuItem("reportar")} />
-                        { isGbo &&
+                        { isGboOrSA &&
                             <MenuItem id="backoffice" href={PathsLabel.BackOffice} label="BackOffice"
                             isActive={true} onClick={() => this.setActiveMenuItem("backoffice")} />    
                         }

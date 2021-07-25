@@ -101,7 +101,6 @@ class ProfileSettings extends Component {
             let json: Visibility = {
                 visibility: this.state.visibility
             }
-            console.log(this.state.visibility)
             const requestOptions = {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' }

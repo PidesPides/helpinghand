@@ -20,7 +20,6 @@ class ListInstitutions extends Component {
         this.setState({
             visib: true
         });
-        console.log(this.state.list)
     }
 
     closeInstitutions() {

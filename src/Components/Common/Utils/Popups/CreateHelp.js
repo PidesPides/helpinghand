@@ -35,7 +35,6 @@ class CreateHelp extends Component{
     }
     
     handleDate(date){
-        console.log(date)
          try {
             var formatD =dateFormat(date,"isoUtcDateTime"); 
             this.setState({dateH: formatD}, () => 
@@ -57,7 +56,6 @@ class CreateHelp extends Component{
                 const { lat, lng } = response.results[0].geometry.location;
                 locationTmp.push(lat);
                 locationTmp.push(lng);
-                console.log(locationTmp)
                 this.setState({locationLL: locationTmp});
                 var url = ServicePathsLabel.ApiProd + PathsLabel.Help + '?tokenId=' + sessionStorage.getItem('token');
                 let json: Help = {
