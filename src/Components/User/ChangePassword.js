@@ -60,7 +60,7 @@ class ChangePassword extends Component {
                 
             }
             else {
-                swal("Por favor preencha todos os campos.", "error");
+                swal("Por favor preencha todos os campos corretamente.","", "error");
             }
         } 
         if(sessionStorage.getItem("role") === "USER"){
@@ -93,7 +93,7 @@ class ChangePassword extends Component {
                 );
             }
             else {
-                swal("Por favor preencha todos os campos.", "error");
+                swal("Por favor preencha todos os campos corretamente.","", "error");
             }
 
         }

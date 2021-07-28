@@ -1,5 +1,6 @@
 import React,{ Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
+
 import { ServicePathsLabel,PathsLabel,Roles } from '../Common/Utils/Paths.js';
 import swal from 'sweetalert';
 
@@ -42,8 +43,10 @@ class UpdateEmail extends Component{
         .then(response => {
                 if (response.ok) {
                 swal("Mudança de email feita com sucesso.", " ","success");
+                
             }else{
                 swal("Houve um problema na atualização. Tenta outra vez","","error");
+                
             }
         })
         .catch(

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Card, Row, Col } from 'react-bootstrap';
+import { Container, Toast, Row, Col } from 'react-bootstrap';
 import { ServicePathsLabel, PathsLabel, Roles } from './Paths.js';
 
 class Feed extends Component{
@@ -38,12 +38,12 @@ class Feed extends Component{
                 <Row xs={1} md={2}>
                     {this.state.feed.map((feedInfo,index)=>
                         <Col>
-                            <Card border="info" style={{ width: '24rem' , height:'9rem' , margin:'1rem'}}>
-                                <Card.Body>
-                                <Card.Title><b>Notificação {index+1}</b></Card.Title>
-                                    <Card.Text>-{feedInfo.info}</Card.Text>
-                                </Card.Body>
-                            </Card>
+                            <Toast>
+                                <Toast.Header closeButton={false}>
+                                    <strong className="me-auto">Notificação {index+1}</strong>
+                                </Toast.Header>
+                                <Toast.Body>{feedInfo.info}</Toast.Body>
+                            </Toast>
                         </Col>
                     )}
                 </Row>
@@ -52,3 +52,5 @@ class Feed extends Component{
     }
 }
 export default Feed;
+
+                        

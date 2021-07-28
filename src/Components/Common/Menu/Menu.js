@@ -2,6 +2,7 @@ import React,{ Component } from "react";
 import { Navbar, Nav } from 'react-bootstrap';
 import { PathsLabel } from "../Utils/Paths";
 import { MenuItem } from './MenuItem';
+import swal from 'sweetalert';
 
 //tratar da roda dentada
 class Menu extends Component {
@@ -15,9 +16,23 @@ class Menu extends Component {
     }
     //fazer sweetalert de logout
     logout(){
-        sessionStorage.clear();
-        this.setState({});
-        window.location.hash = "/";
+         swal({
+            title: "Tem a certeza que quer terminar a sessão?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willLogout) => {
+                if (willLogout) {
+                    sessionStorage.clear();
+                    this.setState({});
+                    window.location.hash = "/";
+                    window.location.reload();
+                    
+                } 
+            }
+        );
+    
     }
 
     loggedInMenu() {
@@ -91,7 +106,7 @@ class Menu extends Component {
     render() {
         //false => menu guest(sem registo);
         //true  => menu loggedIn(com registo e logIn feito)
-        const isLoggedIn = sessionStorage.getItem("id") !== null;;
+        const isLoggedIn = sessionStorage.getItem("id") !== null;
         return (
             <div>
                 { isLoggedIn &&

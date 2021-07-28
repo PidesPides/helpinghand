@@ -1,4 +1,5 @@
 import React,{ Component } from 'react';
+import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 
 
@@ -34,10 +35,23 @@ handleVerification(string){
     fetch(url,requestOptions)
     .then(response =>{
      if (response.ok) {
-         swal("ok","","success");
+         
+        swal("Verificação feita com sucesso.","","success")
+        .then((willRedirect) => {
+            if(willRedirect) {
+                window.location.href= "https://thehelpinghand.ew.r.appspot.com/#/login";
+            }
+        }
+        );
      }
      else{
-         swal("ok","","error");
+        swal("Houve um problema com a verificação.","","error")
+        .then((willRedirect) => {
+            if(willRedirect) {
+                window.location.href= "https://thehelpinghand.ew.r.appspot.com/#/";
+            }
+        }
+        );
     }})
 
 

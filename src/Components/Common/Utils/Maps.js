@@ -126,10 +126,14 @@ class Maps extends Component {
             body: JSON.stringify(json)
         }
         fetch(url, requestOptions)
-        .then(data => {
-            //fazer if no swal para reload da pagina
-            swal("Sucesso", "Tens de esperar que a pessoa aceite a tua ajuda.","success")
-        }) 
+       .then(response => {
+                if (response.ok) {
+                    swal("Sucesso.", "Tens de esperar que a pessoa aceite a tua ajuda. ","success");
+                }
+                else{
+                    swal("Não te podes juntar a esta ajuda.", "Já estás inscrito nesta ajuda? ","error");
+                }
+            }) 
         .catch(
             
         );
@@ -147,10 +151,14 @@ class Maps extends Component {
             body: JSON.stringify(json)
         }
         fetch(url, requestOptions)
-        .then(data => {
-            //fazer if no swal para reload da pagina
-            swal("Sucesso.", " ","success")         
-        }) 
+         .then(response => {
+                if (response.ok) {
+                    swal("Sucesso.", "Tens de esperar até ao início do evento.","success");
+                }
+                else{
+                    swal("Não te podes juntar a este evento.", "Já estás inscrito neste evento? ","error");
+                }
+            })  
         .catch(
             
         );
@@ -180,6 +188,11 @@ class Maps extends Component {
    
 
     render() {
+        var isInstitution = false;
+        if(sessionStorage.getItem('role') === "INSTITUTION"){
+            isInstitution = true;
+        }
+        
         return (
             <Table size="sm">
                 <Row>
@@ -195,18 +208,22 @@ class Maps extends Component {
                         <CreateHelp />
                     </Popup>
                     </Col>
-                    <Col sm>
-                    <Popup trigger={
-                        <Button variant="outline-primary" className="mt-2" size="sm">
-                            Criar Evento
-                        </Button>} 
-                        position="right top"
-                        modal
-                        nested
-                        >
-                        <CreateEvent />
-                    </Popup>
-                    </Col>
+                    {
+                        isInstitution &&
+                        <Col sm>
+                            <Popup trigger={
+                                <Button variant="outline-primary" className="mt-2" size="sm">
+                                    Criar Evento
+                                </Button>} 
+                                position="right top"
+                                modal
+                                nested
+                                >
+                                <CreateEvent />
+                            </Popup>
+                        </Col>
+                    }
+                    
                 </Row>
             
                 <Map
@@ -260,9 +277,12 @@ class Maps extends Component {
                                 <div>
                                     <p>{"Data de inicio: " + dateFormat(this.state.selectedPlace.start,"default")}</p>
                                     <p>{"Data de fim: " + dateFormat(this.state.selectedPlace.end,"default")}</p>
-                                     <Button size="sm" variant="link" onClick={this.handleJoinEvent}>
-                                        Quero juntar-me a este evento.
-                                    </Button>
+                                    { !isInstitution &&
+                                        <Button size="sm" variant="link" onClick={this.handleJoinEvent}>
+                                            Quero juntar-me a este evento.
+                                        </Button>
+                                    }
+                                    
                                 </div>
                                 
                                 
@@ -270,9 +290,12 @@ class Maps extends Component {
                             { !this.state.activeMarker.isEvent &&
                                 <div>
                                     <p>{"Data: " + dateFormat(this.state.selectedPlace.time,"default")}</p>
-                                    <Button  size="sm" variant="link" onClick={this.handleOfferHelp}>
+                                    { !isInstitution &&
+                                        <Button  size="sm" variant="link" onClick={this.handleOfferHelp}>
                                         Quero ajudar esta pessoa.
                                     </Button>
+                                    }
+                                    
                                 </div>
                                    
                                 

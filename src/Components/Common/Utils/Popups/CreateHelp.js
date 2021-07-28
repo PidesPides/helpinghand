@@ -71,14 +71,20 @@ class CreateHelp extends Component{
                     body: JSON.stringify(json)
                 };
                 fetch(url, requestOptions)
-                .then(data => {
-                    //fazer if no swal para reload da pagina
-                    swal("Ajuda criada com sucesso.", " ","success")
+                .then(response => {
+                    if(response.ok){
+                        swal("Ajuda criada com sucesso.", " ","success")
                     .then(() => {
                         window.location.reload();
                     });
+                    }
+                    else{
+                        swal("Por favor preencha todos os campos corretamente.","", "error");
+                    }
+                    //fazer if no swal para reload da pagina
                     
-                })
+                    
+                }) 
                 .catch(
                     
                 );
@@ -103,7 +109,7 @@ class CreateHelp extends Component{
                         <td>
                         <Form.Group controlId="formName">
                             <Form.Label>Nome</Form.Label>
-                            <Form.Control type="name" name="name" placeholder="Introduza o nome do evento"
+                            <Form.Control type="name" name="name" placeholder="Introduza o nome da ajuda"
                                 onChange={this.onChange} value={this.state.name} required />
                         </Form.Group>
 

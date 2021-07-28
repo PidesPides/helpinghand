@@ -86,12 +86,18 @@ class CreateEvent extends Component{
                             body: JSON.stringify(json)
                 };
                 fetch(url, requestOptions)
-                .then(data => {
-                    //fazer if no swal para reload da pagina
-                    swal("Evento criado com sucesso.", " ","success")
+                .then(response => {
+                    if(response.ok){
+                        swal("Evento criado com sucesso.", " ","success")
                     .then(() => {
                         window.location.reload();
                     });
+                    }
+                    else{
+                        swal("Por favor preencha todos os campos corretamente.","", "error");
+                    }
+                    //fazer if no swal para reload da pagina
+                    
                     
                 }) 
                 .catch(
@@ -131,6 +137,7 @@ class CreateEvent extends Component{
                                         disableClock= {true}
                                         onChange={this.handleStartDate}
                                         value={d1}
+    
                                     />
                             </Form.Group>
 

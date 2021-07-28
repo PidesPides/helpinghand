@@ -74,9 +74,10 @@ class Operations extends Component {
                         swal("Erro do lado do servidor!","A operação foi abortada.", "error");
                     }
                 })
-                .catch(
-                    console.log(error)
-                );
+                .catch(error => {
+                console.log(error);
+              }
+        );
     }
 
     disable() {
@@ -97,9 +98,10 @@ class Operations extends Component {
                         swal("Erro do lado do servidor!","A operação foi abortada.", "error");
                     }
                 })
-                .catch(
-                    console.log(error)
-                );
+                .catch(error => {
+                console.log(error);
+              }
+        );
     }
 
     enable() {

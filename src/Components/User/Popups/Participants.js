@@ -40,21 +40,31 @@ class Participants extends Component{
     }
 
     render() {
+        /*
+        const length = this.state.participants.length;
+        var isNull = false;
+        if(length === 0){
+            isNull = true;
+        }
+        else{
+            isNull = false;
+        }
+        */
         return(
             <Container>
                 <Row xs={1} md={2}>
                     {this.state.participants.map((participant,index) => {
                         return(
-                            <Row>
-                                <div>
-                                    <Col>
-                                        <p><u>Nome:</u>{participant.id}</p>
-                                        <p><u>Email:</u>{participant.email}</p>
-                                        <p><u>Visibilidade:</u>{participant.visibility}</p>
-                                    </Col>
-                                </div>
-                            </Row>                    
-                        )   
+                        <Row>
+                            <div>
+                                <Col>
+                                    <p><u>Nome:</u>{participant.id}</p>
+                                    <p><u>Email:</u>{participant.email}</p>
+                                    <p><u>Visibilidade:</u>{participant.visibility}</p>
+                                </Col>
+                            </div>
+                        </Row>                    
+                        )
                     })}
                 </Row>
             </Container>

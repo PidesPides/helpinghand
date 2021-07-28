@@ -558,7 +558,6 @@ class Profile extends Component{
                                             </Form.Group>
                                         </Col>
                                     </Row>
-
                                     <Row>
                                         <Col>
                                             <Form.Group controlId="formCity">

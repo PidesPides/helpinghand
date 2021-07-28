@@ -65,8 +65,7 @@ class Helpers extends Component{
                 swal("Ajudante adicionado com sucesso","","success");
         //mais alguma coisa'
             }else{
-                this.setState({error: response.statusText});
-                throw new Error(response.statusText);
+                swal("Este utilizador já está escolhido para te ajudar.","Escolhe outro se quiseres trocar.","error");
             }
         })
 
